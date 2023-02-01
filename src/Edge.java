@@ -10,4 +10,15 @@ public class Edge{
         this.destination = destination;
         this.weight = weight;
     }
+
+    // getter methods used in the graph adt class
+
+    public int getEdge() {
+        return this.destination;
+    }
+
+    public int getWeight() {
+        return this.weight;
+    }
+
 }

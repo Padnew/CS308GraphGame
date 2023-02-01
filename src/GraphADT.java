@@ -12,6 +12,9 @@ import java.util.Map;
  * for interacting with the graph
  */
 public abstract class GraphADT {
+
+             // Nodes   , List of edges
+            // calculate number of edges by doing length of list weights in loop
     private Map<Integer, List<Edge>> adjacencyList;
 
     GraphADT() {
@@ -27,6 +30,28 @@ public abstract class GraphADT {
         adjacencyList.putIfAbsent(node, new ArrayList<>());
     }
 
+    int numOfVertices() {
+
+        int numOfNodes = 0;
+
+        numOfNodes =  adjacencyList.size();
+
+        return numOfNodes;
+    }
+
+    int numEdges() {
+
+        int numOfEdges = 0;
+        // loop over and find the length of each list , adding it to the total of numOfeEdges
+
+        for (List<Edge> value: adjacencyList.values()) {
+            numOfEdges += value.size();
+        }
+
+        return numOfEdges;
+
+    }
+
     /**
      * Adds an edge between two nodes, as the graph is undirected there must
      * be a node created in both directions
@@ -39,6 +64,32 @@ public abstract class GraphADT {
         adjacencyList.get(destination).add(new Edge(source, weight));
     }
 
+    Edge getEdge(int source, int destination) {
+        // gets list of edges
+        // want to check if there is an edge between nodes A -> B
+        // would need to check if in the list , for key A, there exists an edge to B
+        // get list of edges from source , check edge in the list to see if it equals destination node
+
+        Edge finalEdge = null;
+
+        List<Edge> edges = adjacencyList.get(source); // get list of edges
+        for (Edge value: edges) {
+            if (value.getEdge() == destination) {
+
+                finalEdge = value;
+
+            }
+
+
+        }
+
+        return finalEdge;
+
+
+    }
+
+
+
     /**
      * Removes an edge by deleting the edge in both directions
      * @param source Where the edge starts
@@ -50,6 +101,9 @@ public abstract class GraphADT {
         edges = adjacencyList.get(destination);
         edges.removeIf(edge -> edge.destination == source);
     }
+
+
+
 
     /**
      * Removes a node and all of its associated edges
