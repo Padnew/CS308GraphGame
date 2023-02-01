@@ -59,18 +59,4 @@ public abstract class GraphADT {
         adjacencyList.values().forEach(edges -> edges.removeIf(edge -> edge.destination == node));
         adjacencyList.remove(node);
     }
-
-    /**
-     * A definition of an edge, to be used within the adjacency list
-     * representing the graph
-     */
-    class Edge{
-        int destination;
-        int weight;
-
-        Edge(int destination, int weight){
-            this.destination = destination;
-            this.weight = weight;
-        }
-    }
 }
