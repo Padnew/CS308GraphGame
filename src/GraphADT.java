@@ -31,25 +31,17 @@ public abstract class GraphADT {
     }
 
     int numOfVertices() {
-
         int numOfNodes = 0;
-
         numOfNodes =  adjacencyList.size();
-
         return numOfNodes;
     }
 
     int numEdges() {
-
         int numOfEdges = 0;
-        // loop over and find the length of each list , adding it to the total of numOfeEdges
-
-        for (List<Edge> value: adjacencyList.values()) {
+        for (List<Edge> value: adjacencyList.values()) { // loop over and find the length of each list , adding it to the total of numOfeEdges
             numOfEdges += value.size();
         }
-
         return numOfEdges;
-
     }
 
     /**
@@ -64,31 +56,23 @@ public abstract class GraphADT {
         adjacencyList.get(destination).add(new Edge(source, weight));
     }
 
+    /** gets list of edges
+        * want to check if there is an edge between nodes A -> B
+        * would need to check if in the list , for key A, there exists an edge to B
+        * get list of edges from source , check edge in the list to see if it equals destination node
+     **/
     Edge getEdge(int source, int destination) {
-        // gets list of edges
-        // want to check if there is an edge between nodes A -> B
-        // would need to check if in the list , for key A, there exists an edge to B
-        // get list of edges from source , check edge in the list to see if it equals destination node
+
 
         Edge finalEdge = null;
-
         List<Edge> edges = adjacencyList.get(source); // get list of edges
         for (Edge value: edges) {
             if (value.getEdge() == destination) {
-
                 finalEdge = value;
-
             }
-
-
         }
-
         return finalEdge;
-
-
     }
-
-
 
     /**
      * Removes an edge by deleting the edge in both directions
@@ -101,9 +85,6 @@ public abstract class GraphADT {
         edges = adjacencyList.get(destination);
         edges.removeIf(edge -> edge.destination == source);
     }
-
-
-
 
     /**
      * Removes a node and all of its associated edges
