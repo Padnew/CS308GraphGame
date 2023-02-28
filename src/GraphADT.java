@@ -47,9 +47,7 @@ public abstract class GraphADT {
         for (List<Edge> value: adjacencyList.values()) {
             numOfEdges += value.size();
         }
-
         return numOfEdges;
-
     }
 
     /**
