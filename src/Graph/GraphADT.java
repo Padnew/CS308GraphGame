@@ -2,7 +2,6 @@ package Graph;
 //TODO - What other methods could be useful,
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,24 +10,11 @@ import java.util.Map;
  * an undirected weighted graph and provides some simple methods
  * for interacting with the graph
  */
-public abstract class GraphADT {
+public interface GraphADT {
 
-    private Map<Integer, List<Integer>> adjacencyList;
+    void addNode(int node);
 
-    GraphADT() {
-        this.adjacencyList = new HashMap<>();
-    }
+    int numOfVertices();
 
-    /**
-     * This method adds a node to the adjacency list if it
-     * is not present
-     * @param node The value of the node to be added
-     */
-    void addNode(int node){
-        adjacencyList.putIfAbsent(node, new ArrayList<>());
-    }
-
-    int numOfVertices() {
-        return adjacencyList.size();
-    }
+    ArrayList<Integer> djikstraAlgo(Map<Integer, List<Integer>> graph, int startNode);
 }
