@@ -7,16 +7,16 @@ import java.util.HashMap;
 */
 public class Planet implements Node {
     private final int id;
-    private HashMap<Integer, Integer> neighbours;
+    private final HashMap<Integer, Integer> neighbours;
     public Planet(int id) {
         this.id = id;
         this.neighbours = new HashMap<>(); // initialize the neighbours HashMap
     }
 
-    public Planet(int id, HashMap<Integer, Integer> neighbours) {
-        this.id = id;
-        this.neighbours = neighbours;
-    }
+//    public Planet(int id, HashMap<Integer, Integer> neighbours) {
+//        this.id = id;
+//        this.neighbours = neighbours;
+//    }
     public int getNode(){
         return this.id;
     }

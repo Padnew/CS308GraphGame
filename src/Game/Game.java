@@ -9,7 +9,8 @@ import java.awt.*;
 public class Game {
     GraphGUI graph = new GraphGUI();
     Universe universe = new Universe();
-    public void startGame(){
+    public void startGame() throws Exception {
+        universe.readFile();
         graph.initGraph();
     }
 }

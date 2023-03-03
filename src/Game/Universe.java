@@ -1,5 +1,7 @@
 package Game;
 
+import Graph.Graph;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 */
 public class Universe {
     ArrayList<Planet> planets = new ArrayList<>();
+    Graph graph = new Graph();
     public ArrayList<Planet> readFile() throws Exception{
         File file = new File("data/graphData.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -43,5 +46,9 @@ public class Universe {
 //        }
         return planets;
     }
+
+//    public Graph buildGraph(ArrayList<Planet> planets){
+//
+//    }
 
 }

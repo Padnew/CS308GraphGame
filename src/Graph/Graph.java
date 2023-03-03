@@ -13,6 +13,9 @@ public class Graph implements GraphADT{
     public Graph(){
         this.adjacencyList = new HashMap<>();
     }
+    public Graph(HashMap<Integer, List<Integer>> objects){
+        this.adjacencyList = objects;
+    }
     @Override
     public void addNode(int node) {
         adjacencyList.putIfAbsent(node, new ArrayList<>());
