@@ -1,11 +1,10 @@
 package Game;
-
 import Graph.Graph;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Map;
 
 /*
 * Universe is the model in the MVC format, it will implement the graph class as well as the planet class
@@ -47,8 +46,21 @@ public class Universe {
         return planets;
     }
 
-//    public Graph buildGraph(ArrayList<Planet> planets){
-//
-//    }
+    public Graph buildGraph(ArrayList<Planet> planets){
+        Graph graph = new Graph();
+
+        for (Planet planet : planets) {
+            graph.addNode(planet.getNode());
+            graph.adjacencyList.put(planet.getNode(), planet);
+        }
+
+        for (Planet planet : planets) {
+            for (Map.Entry<Integer, Integer> neighbor : planet.getNeighbors().entrySet()) {
+                graph.adjacencyList.get(planet.getNode()).addNeighbor(neighbor.getKey(), neighbor.getValue());
+            }
+        }
+
+        return graph;
+    }
 
 }
