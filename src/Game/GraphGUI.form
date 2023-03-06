@@ -5,7 +5,9 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-1"/>
+    </properties>
     <border type="none"/>
     <children>
       <component id="19b6f" class="javax.swing.JTextField" binding="userInputTextField">
@@ -39,14 +41,18 @@
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-16774579"/>
+        </properties>
         <border type="none"/>
         <children>
-          <component id="5a1c8" class="javax.swing.JLabel">
+          <component id="5a1c8" class="javax.swing.JLabel" binding="backgroundLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <foreground color="-16774579"/>
               <text value=""/>
             </properties>
           </component>
