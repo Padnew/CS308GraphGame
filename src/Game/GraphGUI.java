@@ -21,8 +21,10 @@ public class GraphGUI extends JFrame {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                HashMap<Integer, int[]> locations = new HashMap<>();
             for(Planet planet : graph.adjacencyList.values()){
-                    drawPlanet((Graphics2D) g);
+                    int[] coordinates = drawPlanet((Graphics2D) g);
+                    locations.put(planet.getNode(), coordinates);
                 }
 //                for (Planet planet : graph.adjacencyList.values()) {
 //                    HashMap<Integer, Integer> neighbours = planet.getNeighbours();
@@ -34,7 +36,7 @@ public class GraphGUI extends JFrame {
 //                        }
 //                    }
 //                }
-            };
+            }
         };
 
         // Set the layout of the mainPanel and add the graphPanel and backgroundLabel
@@ -49,17 +51,18 @@ public class GraphGUI extends JFrame {
         pack();
     }
 
-    public void drawPlanet(Graphics2D g) {
+    public int[] drawPlanet(Graphics2D g) {
         int panelWidth = graphPanel.getWidth();
         int panelHeight = graphPanel.getHeight();
         int circleSize = 20;
 
         int x = (int) (Math.random() * (panelWidth - circleSize));
         int y = (int) (Math.random() * (panelHeight - circleSize));
-
+        int[] coor = new int[]{x,y};
         g.drawOval(x, y, circleSize, circleSize);
         g.setColor(Color.BLUE);
         g.fillOval(x, y, circleSize, circleSize);
+        return coor;
     }
 
     public void initGraph(Graph graph) {
