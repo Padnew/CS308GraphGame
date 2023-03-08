@@ -1,5 +1,8 @@
 package Game;
 import Graph.Graph;
+
+import java.util.ArrayList;
+
 /*
 * Game class is the controller and will create an instance of the view(GraphGUI) and model(Universe)
 */

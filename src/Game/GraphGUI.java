@@ -13,12 +13,12 @@ public class GraphGUI extends JFrame {
     private JLabel backgroundLabel;
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
+    private final int CIRCLE_SIZE = 20;
     public GraphGUI(Graph graph) {
         setTitle("AstroTraveller");
-
         // Create a new JLabel to hold the background image
 //        backgroundLabel = new JLabel(new ImageIcon(new javax.swing.ImageIcon("data/Background.png").getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH)));
-
+//        backgroundLabel.setLayout( new GridBagLayout() );
         // Create a new JPanel to hold the circle and the background image
         graphPanel = new JPanel() {
             @Override
@@ -36,7 +36,8 @@ public class GraphGUI extends JFrame {
                     int[] currentPlanetCoordinate = locations.get(planet.getNode());
                     for(int id : neighbours.keySet()){
                         int[] neighbourCoordinates = locations.get(id);
-                        drawEdge((Graphics2D) g, currentPlanetCoordinate[0],currentPlanetCoordinate[1], neighbourCoordinates[0], neighbourCoordinates[1]);
+                        int weight = neighbours.get(id);
+                        drawEdge((Graphics2D) g, currentPlanetCoordinate[0],currentPlanetCoordinate[1], neighbourCoordinates[0], neighbourCoordinates[1], weight);
                     }
                 }
             }
@@ -44,6 +45,9 @@ public class GraphGUI extends JFrame {
 
         // Set the layout of the mainPanel and add the graphPanel and backgroundLabel
         mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(backgroundLabel);
+        graphPanel.setBackground(Color.BLACK);
+//        backgroundLabel.add(graphPanel);
         mainPanel.add(graphPanel, BorderLayout.CENTER);
         mainPanel.add(backgroundLabel, BorderLayout.PAGE_START);
 
@@ -57,20 +61,20 @@ public class GraphGUI extends JFrame {
     public int[] drawPlanet(Graphics2D g) {
         int panelWidth = graphPanel.getWidth();
         int panelHeight = graphPanel.getHeight();
-        int circleSize = 20;
 
-        int x = (int) (Math.random() * (panelWidth - circleSize));
-        int y = (int) (Math.random() * (panelHeight - circleSize));
+        int x = (int) (Math.random() * (panelWidth - CIRCLE_SIZE));
+        int y = (int) (Math.random() * (panelHeight - CIRCLE_SIZE));
         int[] coor = new int[]{x,y};
-        g.drawOval(x, y, circleSize, circleSize);
-        g.setColor(Color.BLUE);
-        g.fillOval(x, y, circleSize, circleSize);
+        g.drawOval(x, y, CIRCLE_SIZE, CIRCLE_SIZE);
+        g.setColor(Color.red);
+        g.fillOval(x, y, CIRCLE_SIZE, CIRCLE_SIZE);
         return coor;
     }
 
-    public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY){
-        g.setColor(Color.BLACK);
-        g.drawLine(cpX, cpY, nX, nY);
+    public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY, int weight){
+        g.setColor(Color.white);
+        g.drawLine(cpX+(CIRCLE_SIZE/2), cpY+(CIRCLE_SIZE/2), nX+(CIRCLE_SIZE/2), nY+(CIRCLE_SIZE/2));
+        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
     }
 
     public void initGraph(Graph graph) {
