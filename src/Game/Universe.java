@@ -38,6 +38,11 @@ public class Universe {
                 planets.add(planet);
             }
             planet.addNeighbor(destination, weight);
+            Planet dest = new Planet(destination);
+            if (!planets.contains(dest)){
+               planets.add(dest);
+               dest.addNeighbor(source, weight);
+            }
             }
 //        for(Planet p : planets){
 //            System.out.println(p.getNode());
