@@ -16,5 +16,5 @@ public interface GraphADT {
 
     int numOfVertices();
 
-    ArrayList<Integer> djikstraAlgo(Map<Integer, List<Integer>> graph, int startNode);
+    ArrayList<Integer> djikstraAlgo(int startNode, int endNode);
 }
