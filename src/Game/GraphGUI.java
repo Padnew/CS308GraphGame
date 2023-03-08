@@ -3,13 +3,16 @@ package Game;
 import Graph.Graph;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class GraphGUI extends JFrame {
     private JPanel mainPanel;
     private JPanel graphPanel;
     private JLabel backgroundLabel;
-
+    private final int WIDTH = 1000;
+    private final int HEIGHT = 800;
     public GraphGUI(Graph graph) {
         setTitle("AstroTraveller");
 
@@ -22,20 +25,20 @@ public class GraphGUI extends JFrame {
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 HashMap<Integer, int[]> locations = new HashMap<>();
+//                Drawing planets
             for(Planet planet : graph.adjacencyList.values()){
                     int[] coordinates = drawPlanet((Graphics2D) g);
                     locations.put(planet.getNode(), coordinates);
                 }
-//                for (Planet planet : graph.adjacencyList.values()) {
-//                    HashMap<Integer, Integer> neighbours = planet.getNeighbours();
-//                    if (neighbours != null) {
-//                        for (Planet neighbour : ) {
-//                            if (neighbour != null) {
-//                                g.drawLine(x1, y1, x2, y2);
-//                            }
-//                        }
-//                    }
-//                }
+//            Drawing edges
+                for (Planet planet : graph.adjacencyList.values()) {
+                    HashMap<Integer, Integer> neighbours = planet.getNeighbours();
+                    int[] currentPlanetCoordinate = locations.get(planet.getNode());
+                    for(int id : neighbours.keySet()){
+                        int[] neighbourCoordinates = locations.get(id);
+                        drawEdge((Graphics2D) g, currentPlanetCoordinate[0],currentPlanetCoordinate[1], neighbourCoordinates[0], neighbourCoordinates[1]);
+                    }
+                }
             }
         };
 
@@ -47,7 +50,7 @@ public class GraphGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
         setLocationRelativeTo(null);
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         pack();
     }
 
@@ -63,6 +66,11 @@ public class GraphGUI extends JFrame {
         g.setColor(Color.BLUE);
         g.fillOval(x, y, circleSize, circleSize);
         return coor;
+    }
+
+    public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY){
+        g.setColor(Color.BLACK);
+        g.drawLine(cpX, cpY, nX, nY);
     }
 
     public void initGraph(Graph graph) {
