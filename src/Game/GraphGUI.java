@@ -25,15 +25,10 @@ public class GraphGUI extends JFrame {
                     drawPlanet((Graphics2D) g);
                 }
 //                for (Planet planet : graph.adjacencyList.values()) {
-//                    int x1 = planet.getX();
-//                    int y1 = planet.getY();
-//
 //                    HashMap<Integer, Integer> neighbours = planet.getNeighbours();
 //                    if (neighbours != null) {
 //                        for (Planet neighbour : ) {
 //                            if (neighbour != null) {
-//                                int x2 = neighbour.getX();
-//                                int y2 = neighbour.getY();
 //                                g.drawLine(x1, y1, x2, y2);
 //                            }
 //                        }

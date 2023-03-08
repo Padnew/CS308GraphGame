@@ -21,8 +21,6 @@ public class Universe {
         int destination;
         int weight;
         while ((st = br.readLine()) != null){
-//            0 1 {'weight': 7}
-//            (0 47 {'weight': 3})
             source = Integer.parseInt(st.substring(0,st.indexOf(' ')));
             destination = Integer.parseInt(st.substring(st.indexOf(' ')+1,st.indexOf(' ', st.indexOf(" ")+1)));
             weight = Integer.parseInt(st.substring(st.indexOf("'weight': ") + 10, st.indexOf("}", st.indexOf("'weight': "))));
@@ -44,10 +42,6 @@ public class Universe {
                dest.addNeighbour(source, weight);
             }
             }
-//        for(Planet p : planets){
-//            System.out.println(p.getNode());
-//            System.out.println(p.getNeighbors());
-//        }
         return planets;
     }
 

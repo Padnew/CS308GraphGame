@@ -53,8 +53,8 @@ public class Graph implements GraphADT {
             if (current == -1) {
                 break;
             }
-            for (int neighbor : adjacencyList.get(current).getNeighbors().keySet()) {
-                int weight = adjacencyList.get(current).getNeighbors().get(neighbor);
+            for (int neighbor : adjacencyList.get(current).getNeighbours().keySet()) {
+                int weight = adjacencyList.get(current).getNeighbours().get(neighbor);
                 int alt = distance.get(current) + weight;
                 if (alt < distance.get(neighbor)) {
                     distance.put(neighbor, alt);
