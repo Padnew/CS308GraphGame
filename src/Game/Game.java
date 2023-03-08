@@ -5,10 +5,10 @@ import Graph.Graph;
 */
 public class Game {
     Graph graph = new Graph();
-    GraphGUI graphGUI = new GraphGUI();
+    GraphGUI graphGUI = new GraphGUI(graph);
     Universe universe = new Universe();
     public void startGame() throws Exception {
         graph = universe.buildGraph(universe.readFile());
-        graphGUI.initGraph();
+        graphGUI.initGraph(graph);
     }
 }

@@ -5,6 +5,6 @@ import java.util.HashMap;
 
 public interface Node {
     int getNode();
-    void addNeighbor(int neighbour, int weight);
-    HashMap<Integer, Integer> getNeighbors();
+    void addNeighbour(int neighbour, int weight);
+    HashMap<Integer, Integer> getNeighbours();
 }

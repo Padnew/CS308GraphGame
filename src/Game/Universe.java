@@ -37,11 +37,11 @@ public class Universe {
                 planet = new Planet(source);
                 planets.add(planet);
             }
-            planet.addNeighbor(destination, weight);
+            planet.addNeighbour(destination, weight);
             Planet dest = new Planet(destination);
             if (!planets.contains(dest)){
                planets.add(dest);
-               dest.addNeighbor(source, weight);
+               dest.addNeighbour(source, weight);
             }
             }
 //        for(Planet p : planets){
@@ -60,8 +60,8 @@ public class Universe {
         }
 
         for (Planet planet : planets) {
-            for (Map.Entry<Integer, Integer> neighbor : planet.getNeighbors().entrySet()) {
-                graph.adjacencyList.get(planet.getNode()).addNeighbor(neighbor.getKey(), neighbor.getValue());
+            for (Map.Entry<Integer, Integer> neighbour : planet.getNeighbours().entrySet()) {
+                graph.adjacencyList.get(planet.getNode()).addNeighbour(neighbour.getKey(), neighbour.getValue());
             }
         }
 
