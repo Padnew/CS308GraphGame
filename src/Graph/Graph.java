@@ -13,9 +13,9 @@ public class Graph implements GraphADT {
         this.adjacencyList = new HashMap<>();
     }
 
-    public Graph(Map<Integer, Planet> objects) {
-        this.adjacencyList = objects;
-    }
+//    public Graph(Map<Integer, Planet> objects) {
+//        this.adjacencyList = objects;
+//    }
 
     @Override
     public void addNode(int node) {
@@ -29,6 +29,7 @@ public class Graph implements GraphADT {
         return adjacencyList.size();
     }
 
+//    TODO: Run tests on algo
     @Override
     public ArrayList<Integer> djikstraAlgo(int startNode, int endNode) {
         Map<Integer, Integer> distance = new HashMap<>();

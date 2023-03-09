@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,12 +13,15 @@ public class GraphGUI extends JFrame implements MouseListener {
     private JPanel mainPanel;
     private JPanel graphPanel;
     private JLabel backgroundLabel;
+//    TODO: Agree on a size of the game window
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
-    private final int PLANET_SIZE = 25;
+    private final int PLANET_SIZE = 25; //Scales the size of the nodes/planets
     private HashMap<Integer, int[]> locations = new HashMap<>();
     public GraphGUI(Graph graph) {
+//        TODO: Come up with a better name for the game lol
         setTitle("AstroTraveller");
+
         graphPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
@@ -41,12 +43,13 @@ public class GraphGUI extends JFrame implements MouseListener {
                 }
             }
         };
-
+//        Adding all the components to the form/panel
         //        backgroundLabel = new JLabel(new ImageIcon(new javax.swing.ImageIcon("data/Background.png").getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH)));
 //        backgroundLabel.setLayout( new GridBagLayout() );
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(backgroundLabel);
         graphPanel.setBackground(Color.BLACK);
+        graphPanel.setPreferredSize(new Dimension(WIDTH, 600));
         graphPanel.addMouseListener(this);
 //        backgroundLabel.add(graphPanel);
         mainPanel.add(graphPanel, BorderLayout.CENTER);
@@ -58,7 +61,7 @@ public class GraphGUI extends JFrame implements MouseListener {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         pack();
     }
-
+//TODO: Space planets out from PLANET_SIZE apart
     public int[] drawPlanet(Graphics2D g) {
         int panelWidth = graphPanel.getWidth();
         int panelHeight = graphPanel.getHeight();
@@ -66,7 +69,7 @@ public class GraphGUI extends JFrame implements MouseListener {
         int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
         int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
         int[] coor = new int[]{x,y};
-//        For the planet picture instead of just a lame circle/planet
+//        For the planet picture instead of just a lame circle
         Toolkit tool=Toolkit.getDefaultToolkit();
         Image i=tool.getImage("data/planet.png");
         g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
@@ -74,10 +77,11 @@ public class GraphGUI extends JFrame implements MouseListener {
 //        g.fillOval(x, y, PLANET_SIZE, PLANET_SIZE);
         return coor;
     }
-
+//TODO: Custom edge, dashed line? DrawString should say cost followed by weight
     public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY, int weight){
         g.setColor(Color.white);
         g.drawLine(cpX+(PLANET_SIZE/2), cpY+(PLANET_SIZE/2), nX+(PLANET_SIZE/2), nY+(PLANET_SIZE/2));
+//        Places the weight in the middle of the line from the source to dest using a lil pythagorus equation
         g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
     }
 
@@ -86,7 +90,7 @@ public class GraphGUI extends JFrame implements MouseListener {
         GUI.setVisible(true);
     }
 
-//Mouse clicky on the planet causes huge massive things to happen wow very cool
+//Mouse clicky on the planet causes huge massive things to happen
     @Override
     public void mouseClicked(MouseEvent e) {
         int clickedX = e.getX();
@@ -94,12 +98,15 @@ public class GraphGUI extends JFrame implements MouseListener {
         int[] clickPosition = new int[]{clickedX,clickedY};
         for(Map.Entry<Integer, int[]> planet : locations.entrySet()){
             int[] planetCoordinates = planet.getValue();
+//            +planet_size since the coordinates are placed at the top right and the square/hitbox is drawn out from that by its size
             if(((clickPosition[0] >= planetCoordinates[0]) && (clickPosition[0] <= planetCoordinates[0] + PLANET_SIZE)) && ((clickPosition[1] >= planetCoordinates[1]) && (clickPosition[1] <= planetCoordinates[1] + PLANET_SIZE))){
+//                TODO: Add selected planet to the algorithm and selectedNode label
                 System.out.println("You selected the planet " + planet.getKey());
+//                selectedNode.setText(String.valueOf(planet.getKey()));
             }
         }
     }
-//    Ignore these for now
+//    MouseListener generated methods -- Mostly ignore them
     @Override
     public void mousePressed(MouseEvent e) {}
 
