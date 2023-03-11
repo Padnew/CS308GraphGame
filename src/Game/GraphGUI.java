@@ -15,8 +15,8 @@ public class GraphGUI extends JFrame implements MouseListener {
     private JLabel backgroundLabel;
 //    TODO: Agree on a size of the game window
     private final int WIDTH = 1000;
-    private final int HEIGHT = 800;
-    private final int PLANET_SIZE = 25; //Scales the size of the nodes/planets
+    private final int HEIGHT = 731;
+    private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
     private HashMap<Integer, int[]> locations = new HashMap<>();
     public GraphGUI(Graph graph) {
 //        TODO: Come up with a better name for the game lol
@@ -61,28 +61,50 @@ public class GraphGUI extends JFrame implements MouseListener {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         pack();
     }
-//TODO: Space planets out from PLANET_SIZE apart
     public int[] drawPlanet(Graphics2D g) {
         int panelWidth = graphPanel.getWidth();
         int panelHeight = graphPanel.getHeight();
-
-        int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
-        int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
-        int[] coor = new int[]{x,y};
-//        For the planet picture instead of just a lame circle
         Toolkit tool=Toolkit.getDefaultToolkit();
         Image i=tool.getImage("data/planet.png");
-        g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
-//        g.setColor(Color.MAGENTA);
-//        g.fillOval(x, y, PLANET_SIZE, PLANET_SIZE);
-        return coor;
+        int x = 0;
+        int y = 0;
+        int[] coor;
+        if(locations.values().isEmpty()){
+            x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
+            y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
+            coor = new int[]{x,y};
+//        For the planet picture instead of just a lame circle
+            g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
+            return coor;
+        }
+        else {
+//            Should generate coordinates which dont overlap with another planet
+            while (true) {
+                x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
+                y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
+                coor = new int[]{x, y};
+                boolean coordinatesOverlap = false;
+                for (int[] oldCoordinates : locations.values()) {
+                    if (!(x > oldCoordinates[0] + PLANET_SIZE*3 || x + PLANET_SIZE*3 < oldCoordinates[0]
+                            || y > oldCoordinates[1] + PLANET_SIZE*3 || y + PLANET_SIZE*3 < oldCoordinates[1])
+                    ) {
+                        coordinatesOverlap = true;
+                        break;
+                    }
+                }
+                if (!coordinatesOverlap) {
+                    g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
+                    return coor;
+                }
+            }
+        }
     }
 //TODO: Custom edge, dashed line? DrawString should say cost followed by weight
     public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY, int weight){
         g.setColor(Color.white);
         g.drawLine(cpX+(PLANET_SIZE/2), cpY+(PLANET_SIZE/2), nX+(PLANET_SIZE/2), nY+(PLANET_SIZE/2));
 //        Places the weight in the middle of the line from the source to dest using a lil pythagorus equation
-        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
+//        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
     }
 
     public void initGraph(Graph graph) {
