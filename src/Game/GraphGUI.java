@@ -13,9 +13,12 @@ public class GraphGUI extends JFrame implements MouseListener {
     private JPanel mainPanel;
     private JPanel graphPanel;
     private JLabel backgroundLabel;
-//    TODO: Agree on a size of the game window
+    private JTextField guessTextField;
+    private JButton submitButton;
+    private JLabel guessLabel;
+    //    TODO: Agree on a size of the game window
     private final int WIDTH = 1000;
-    private final int HEIGHT = 731;
+    private final int HEIGHT = 800;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
     private HashMap<Integer, int[]> locations = new HashMap<>();
     public GraphGUI(Graph graph) {
@@ -43,17 +46,21 @@ public class GraphGUI extends JFrame implements MouseListener {
                 }
             }
         };
-//        Adding all the components to the form/panel
-        //        backgroundLabel = new JLabel(new ImageIcon(new javax.swing.ImageIcon("data/Background.png").getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH)));
-//        backgroundLabel.setLayout( new GridBagLayout() );
-        mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(backgroundLabel);
-        graphPanel.setBackground(Color.BLACK);
-        graphPanel.setPreferredSize(new Dimension(WIDTH, 600));
+        // Adding all the components to the form/panel
         graphPanel.addMouseListener(this);
-//        backgroundLabel.add(graphPanel);
-        mainPanel.add(graphPanel, BorderLayout.CENTER);
-        mainPanel.add(backgroundLabel, BorderLayout.PAGE_START);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(graphPanel);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        guessLabel = new JLabel("Guess:");
+        guessTextField = new JTextField(20);
+        submitButton = new JButton("Submit");
+        graphPanel.setBackground(Color.BLACK);
+        bottomPanel.add(guessLabel);
+        bottomPanel.add(guessTextField);
+        bottomPanel.add(submitButton);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
