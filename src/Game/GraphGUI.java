@@ -4,18 +4,22 @@ import Graph.Graph;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GraphGUI extends JFrame implements MouseListener {
-    private JPanel mainPanel;
+    private final JPanel mainPanel;
     private JPanel graphPanel;
     private JLabel backgroundLabel;
     private JTextField guessTextField;
     private JButton submitButton;
     private JLabel guessLabel;
+    private JLabel selectedLabel;
+    private JLabel selectedNode;
     //    TODO: Agree on a size of the game window
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
@@ -46,22 +50,40 @@ public class GraphGUI extends JFrame implements MouseListener {
                 }
             }
         };
-        // Adding all the components to the form/panel
-        graphPanel.addMouseListener(this);
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(graphPanel);
 
+        mainPanel = new JPanel();
+        //        Bottom panel is necessary to hold all the none graph related components, graph panel wasnt enough apprently
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         guessLabel = new JLabel("Guess:");
-        guessTextField = new JTextField(20);
+        selectedLabel = new JLabel("Selected node: ");
+        selectedNode = new JLabel("");
+        guessTextField = new JTextField(3);
         submitButton = new JButton("Submit");
+        mainPanel.setLayout(new BorderLayout());
         graphPanel.setBackground(Color.BLACK);
+//        Adding components to their respective places
+        mainPanel.add(graphPanel);
+//        The order these are added are left to right (Order is important)
         bottomPanel.add(guessLabel);
         bottomPanel.add(guessTextField);
         bottomPanel.add(submitButton);
+        bottomPanel.add(selectedLabel);
+        bottomPanel.add(selectedNode);
+//        Adds the bottom panl to the main panel
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
+//        This action listener is for when the press submit
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selected = Integer.parseInt(selectedNode.getText());
+                System.out.println(selected);
+//                System.out.println(graph.djikstraAlgo(0, output));
+            }
+        });
+//        mouse listener is just for selecting planets
+        graphPanel.addMouseListener(this);
+//        Boilerplate Java gui stuff
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
         setLocationRelativeTo(null);
@@ -106,7 +128,7 @@ public class GraphGUI extends JFrame implements MouseListener {
             }
         }
     }
-//TODO: Custom edge, dashed line? DrawString should say cost followed by weight
+//TODO: Custom edge, dashed line? DrawString should say cost followed by weight?
     public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY, int weight){
         g.setColor(Color.white);
         g.drawLine(cpX+(PLANET_SIZE/2), cpY+(PLANET_SIZE/2), nX+(PLANET_SIZE/2), nY+(PLANET_SIZE/2));
@@ -127,11 +149,10 @@ public class GraphGUI extends JFrame implements MouseListener {
         int[] clickPosition = new int[]{clickedX,clickedY};
         for(Map.Entry<Integer, int[]> planet : locations.entrySet()){
             int[] planetCoordinates = planet.getValue();
-//            +planet_size since the coordinates are placed at the top right and the square/hitbox is drawn out from that by its size
+//            +planet_size since the coordinates are placed at the top left and the square/hitbox is drawn out from that by its size
             if(((clickPosition[0] >= planetCoordinates[0]) && (clickPosition[0] <= planetCoordinates[0] + PLANET_SIZE)) && ((clickPosition[1] >= planetCoordinates[1]) && (clickPosition[1] <= planetCoordinates[1] + PLANET_SIZE))){
 //                TODO: Add selected planet to the algorithm and selectedNode label
-                System.out.println("You selected the planet " + planet.getKey());
-//                selectedNode.setText(String.valueOf(planet.getKey()));
+                selectedNode.setText(String.valueOf(planet.getKey()));
             }
         }
     }
