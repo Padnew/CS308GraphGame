@@ -61,9 +61,9 @@ public class GraphGUI extends JFrame implements MouseListener {
         submitButton = new JButton("Submit");
         mainPanel.setLayout(new BorderLayout());
         graphPanel.setBackground(Color.BLACK);
-//        Adding components to their respective places
+
         mainPanel.add(graphPanel);
-//        The order these are added are left to right (Order is important)
+//        Adding components to the bottom panel
         bottomPanel.add(guessLabel);
         bottomPanel.add(guessTextField);
         bottomPanel.add(submitButton);
