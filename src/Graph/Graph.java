@@ -34,13 +34,16 @@ public class Graph implements GraphADT {
     public ArrayList<Integer> djikstraAlgo(int startNode, int endNode) {
         Map<Integer, Integer> distance = new HashMap<>();
         Map<Integer, Integer> previous = new HashMap<>();
+        Map<Integer, Integer> totalWeight = new HashMap<>();
         List<Integer> unvisited = new ArrayList<>(adjacencyList.keySet()); // list of unvisited nodes
 
         for (int node : unvisited) {
             distance.put(node, Integer.MAX_VALUE);
             previous.put(node, null);
+            totalWeight.put(node, Integer.MAX_VALUE);
         }
         distance.put(startNode, 0);
+        totalWeight.put(startNode, 0);
 
         while (!unvisited.isEmpty()) {
             int current = -1;
@@ -62,6 +65,7 @@ public class Graph implements GraphADT {
                 if (alt < distance.get(neighbor)) {
                     distance.put(neighbor, alt);
                     previous.put(neighbor, current);
+                    totalWeight.put(neighbor, totalWeight.get(current) + weight); // added
                 }
             }
         }
@@ -74,6 +78,7 @@ public class Graph implements GraphADT {
         if (current == startNode) {
             path.add(current);
             Collections.reverse(path);
+            System.out.println("Total weight of the path: " + totalWeight.get(endNode)); // added
         } else {
             path.clear(); // endNode is unreachable from startNode
         }
