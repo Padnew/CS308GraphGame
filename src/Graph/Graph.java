@@ -29,7 +29,7 @@ public class Graph implements GraphADT {
         return adjacencyList.size();
     }
 
-//    TODO: Run tests on algo
+    //    TODO: Run tests on algo
     @Override
     public ArrayList<Integer> djikstraAlgo(int startNode, int endNode) {
         Map<Integer, Integer> distance = new HashMap<>();
@@ -51,9 +51,11 @@ public class Graph implements GraphADT {
                     smallestDist = distance.get(node);
                 }
             }
-            if (current == -1) {
+            if (current == -1 || smallestDist == Integer.MAX_VALUE) {
+                // no more reachable nodes or endNode is not reachable from startNode
                 break;
             }
+            unvisited.remove(Integer.valueOf(current));
             for (int neighbor : adjacencyList.get(current).getNeighbours().keySet()) {
                 int weight = adjacencyList.get(current).getNeighbours().get(neighbor);
                 int alt = distance.get(current) + weight;
@@ -78,3 +80,4 @@ public class Graph implements GraphADT {
         return path;
     }
 }
+
