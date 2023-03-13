@@ -10,23 +10,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class GraphGUI extends JFrame implements MouseListener {
     private final JPanel mainPanel;
     private JPanel graphPanel;
     private JLabel backgroundLabel;
+    private JButton clearLabelsButton;
     private JTextField guessTextField;
     private JButton submitButton;
+    private JButton randomiseButton;
     private JLabel guessLabel;
     private JLabel selectedLabel;
-    private JLabel selectedNode;
+    private JLabel srcLabel;
+    private JLabel destLabel;
     //    TODO: Agree on a size of the game window
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
     private HashMap<Integer, int[]> locations = new HashMap<>();
     public GraphGUI(Graph graph) {
-//        TODO: Come up with a better name for the game lol
         setTitle("AstroTraveller");
 
         graphPanel = new JPanel() {
@@ -56,30 +59,48 @@ public class GraphGUI extends JFrame implements MouseListener {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         guessLabel = new JLabel("Guess:");
         selectedLabel = new JLabel("Selected node: ");
-        selectedNode = new JLabel("");
+        srcLabel = new JLabel("");
+        destLabel = new JLabel("");
+        randomiseButton = new JButton("Randomise");
         guessTextField = new JTextField(3);
         submitButton = new JButton("Submit");
         mainPanel.setLayout(new BorderLayout());
         graphPanel.setBackground(Color.BLACK);
+        clearLabelsButton = new JButton("Clear selections");
 
-        mainPanel.add(graphPanel);
 //        Adding components to the bottom panel
+//        TODO: Split bottom panel into left and right panel for controls
+        mainPanel.add(graphPanel);
         bottomPanel.add(guessLabel);
         bottomPanel.add(guessTextField);
         bottomPanel.add(submitButton);
         bottomPanel.add(selectedLabel);
-        bottomPanel.add(selectedNode);
+        bottomPanel.add(srcLabel);
+        bottomPanel.add(destLabel);
+        bottomPanel.add(randomiseButton);
+        bottomPanel.add(clearLabelsButton);
 //        Adds the bottom panl to the main panel
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 //        This action listener is for when the press submit
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selected = Integer.parseInt(selectedNode.getText());
-                System.out.println(selected);
-//                System.out.println(graph.djikstraAlgo(0, output));
+        submitButton.addActionListener(e -> {
+            int firstNode = Integer.parseInt(srcLabel.getText());
+            int secondNode = Integer.parseInt(destLabel.getText());
+//                System.out.println(graph.djikstraAlgo(firstNode, secondNode));
+        });
+        randomiseButton.addActionListener(e -> {
+            Random rand = new Random();
+            int num = rand.nextInt(graph.numOfVertices());
+            if(srcLabel.getText().equals("")) {
+                srcLabel.setText(String.valueOf(num));
             }
+            else if(destLabel.getText().equals("")){
+                destLabel.setText(String.valueOf(num));
+            }
+        });
+        clearLabelsButton.addActionListener(e -> {
+            srcLabel.setText("");
+            destLabel.setText("");
         });
 //        mouse listener is just for selecting planets
         graphPanel.addMouseListener(this);
@@ -133,7 +154,7 @@ public class GraphGUI extends JFrame implements MouseListener {
         g.setColor(Color.white);
         g.drawLine(cpX+(PLANET_SIZE/2), cpY+(PLANET_SIZE/2), nX+(PLANET_SIZE/2), nY+(PLANET_SIZE/2));
 //        Places the weight in the middle of the line from the source to dest using a lil pythagorus equation
-//        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
+        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
     }
 
     public void initGraph(Graph graph) {
@@ -151,8 +172,14 @@ public class GraphGUI extends JFrame implements MouseListener {
             int[] planetCoordinates = planet.getValue();
 //            +planet_size since the coordinates are placed at the top left and the square/hitbox is drawn out from that by its size
             if(((clickPosition[0] >= planetCoordinates[0]) && (clickPosition[0] <= planetCoordinates[0] + PLANET_SIZE)) && ((clickPosition[1] >= planetCoordinates[1]) && (clickPosition[1] <= planetCoordinates[1] + PLANET_SIZE))){
-//                TODO: Add selected planet to the algorithm and selectedNode label
-                selectedNode.setText(String.valueOf(planet.getKey()));
+//                TODO: Add selected planet to the algorithm and srcLabel label
+                if(srcLabel.getText().equals("")) {
+                    srcLabel.setText(String.valueOf(planet.getKey()));
+                }
+                else if(destLabel.getText().equals("")){
+                    destLabel.setText(String.valueOf(planet.getKey()));
+                }
+
             }
         }
     }
