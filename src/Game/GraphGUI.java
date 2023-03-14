@@ -4,8 +4,6 @@ import Graph.Graph;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
@@ -55,7 +53,7 @@ public class GraphGUI extends JFrame implements MouseListener {
         };
 
         mainPanel = new JPanel();
-        //        Bottom panel is necessary to hold all the none graph related components, graph panel wasnt enough apprently
+//        Bottom panel is necessary to hold all the none graph related components, graph panel wasnt enough apprently
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         guessLabel = new JLabel("Guess:");
         selectedLabel = new JLabel("Selected node: ");
@@ -84,24 +82,32 @@ public class GraphGUI extends JFrame implements MouseListener {
 
 //        This action listener is for when the press submit
         submitButton.addActionListener(e -> {
+//            Super easy and not verbose code to display an icon on a message to a scaled size
             ImageIcon i = new ImageIcon("data/rocketIcon.png");
-            Image image = i.getImage();
-            Image newimg = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-            i = new ImageIcon(newimg);
+            Image imageVersion = i.getImage();
+            Image imageScaled = imageVersion.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            i = new ImageIcon(imageScaled);
+
             int firstNode = Integer.parseInt(srcLabel.getText());
             int secondNode = Integer.parseInt(destLabel.getText());
+//            If the guess is successful
             if(graph.djikstraAlgo(firstNode,secondNode).get(0) == Integer.parseInt(guessTextField.getText())){
                 JOptionPane.showMessageDialog(null,
                         "Correct!\nTotal weight = " +
                                 graph.djikstraAlgo(firstNode,secondNode).get(0)
                         +"\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Congrats!", JOptionPane.ERROR_MESSAGE, i);
             }
+//            If the guess is unsuccessful
             else{
                 JOptionPane.showMessageDialog(null,
                         "Aw unlucky!\nTotal weight = " +
                                 graph.djikstraAlgo(firstNode,secondNode).get(0)
                                 +"\nYour guess = " + Integer.parseInt(guessTextField.getText()),"Unlucky!", JOptionPane.ERROR_MESSAGE, i);
+
             }
+//            Reset the labels after a guess
+//            TODO: Consider option pane to reset values or not
+            guessTextField.setText("");
             srcLabel.setText("");
             destLabel.setText("");
         });

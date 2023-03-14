@@ -78,8 +78,8 @@ public class Graph implements GraphADT {
         if (current == startNode) {
             path.add(current);
             Collections.reverse(path);
-            System.out.println("Total weight of the path: " + totalWeight.get(endNode)); // added
-            path.add(0, totalWeight.get(endNode));
+//            System.out.println("Total weight of the path: " + totalWeight.get(endNode)); // added
+            path.add(0, totalWeight.get(endNode)); // adding the weight to the start
         } else {
             path.clear(); // endNode is unreachable from startNode
         }
