@@ -84,20 +84,26 @@ public class GraphGUI extends JFrame implements MouseListener {
 
 //        This action listener is for when the press submit
         submitButton.addActionListener(e -> {
+            ImageIcon i = new ImageIcon("data/rocketIcon.png");
+            Image image = i.getImage();
+            Image newimg = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            i = new ImageIcon(newimg);
             int firstNode = Integer.parseInt(srcLabel.getText());
             int secondNode = Integer.parseInt(destLabel.getText());
             if(graph.djikstraAlgo(firstNode,secondNode).get(0) == Integer.parseInt(guessTextField.getText())){
                 JOptionPane.showMessageDialog(null,
                         "Correct!\nTotal weight = " +
                                 graph.djikstraAlgo(firstNode,secondNode).get(0)
-                        +"\nYour guess = " + Integer.parseInt(guessTextField.getText()));
+                        +"\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Congrats!", JOptionPane.ERROR_MESSAGE, i);
             }
             else{
                 JOptionPane.showMessageDialog(null,
                         "Aw unlucky!\nTotal weight = " +
                                 graph.djikstraAlgo(firstNode,secondNode).get(0)
-                                +"\nYour guess = " + Integer.parseInt(guessTextField.getText()));
+                                +"\nYour guess = " + Integer.parseInt(guessTextField.getText()),"Unlucky!", JOptionPane.ERROR_MESSAGE, i);
             }
+            srcLabel.setText("");
+            destLabel.setText("");
         });
         randomiseButton.addActionListener(e -> {
             Random rand = new Random();
