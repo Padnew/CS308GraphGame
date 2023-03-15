@@ -30,18 +30,21 @@ public class Graph implements GraphADT {
     }
 
     //    TODO: Run tests on algo
+    //Dijkstra's Algorithm for finding the shortest path between two nodes
     @Override
-    public ArrayList<Integer> djikstraAlgo(int startNode, int endNode) {
-        Map<Integer, Integer> distance = new HashMap<>();
+    public ArrayList<Integer> dijkstraAlgo(int startNode, int endNode) {
+        Map<Integer, Integer> distance = new HashMap<>(); //Map where key is a node and value is distance from source
         Map<Integer, Integer> previous = new HashMap<>();
         Map<Integer, Integer> totalWeight = new HashMap<>();
-        List<Integer> unvisited = new ArrayList<>(adjacencyList.keySet()); // list of unvisited nodes
+        List<Integer> unvisited = new ArrayList<>(adjacencyList.keySet()); //List of unvisited nodes, initially every node
 
+        //Initialise all nodes distances and total weights
         for (int node : unvisited) {
             distance.put(node, Integer.MAX_VALUE);
             previous.put(node, null);
             totalWeight.put(node, Integer.MAX_VALUE);
         }
+        //Distance and total weight of start node is 0
         distance.put(startNode, 0);
         totalWeight.put(startNode, 0);
 
@@ -55,7 +58,7 @@ public class Graph implements GraphADT {
                 }
             }
             if (current == -1 || smallestDist == Integer.MAX_VALUE) {
-                // no more reachable nodes or endNode is not reachable from startNode
+                // No more reachable nodes or endNode is not reachable from startNode
                 break;
             }
             unvisited.remove(Integer.valueOf(current));
@@ -69,6 +72,7 @@ public class Graph implements GraphADT {
                 }
             }
         }
+        //Reconstruct path by working backwards
         ArrayList<Integer> path = new ArrayList<>();
         int current = endNode;
         while (current != startNode && previous.get(current) != null) {
@@ -77,9 +81,9 @@ public class Graph implements GraphADT {
         }
         if (current == startNode) {
             path.add(current);
-            Collections.reverse(path);
-//            System.out.println("Total weight of the path: " + totalWeight.get(endNode)); // added
-            path.add(0, totalWeight.get(endNode)); // adding the weight to the start
+            Collections.reverse(path); // Reverse path so it's in the right order
+//            System.out.println("Total weight of the path: " + totalWeight.get(endNode));
+            path.add(0, totalWeight.get(endNode)); // Adding the weight to the start
         } else {
             path.clear(); // endNode is unreachable from startNode
         }
