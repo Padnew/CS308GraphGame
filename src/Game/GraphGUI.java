@@ -130,6 +130,7 @@ public class GraphGUI extends JFrame implements MouseListener {
 //        Boilerplate Java gui stuff
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
+        setResizable(false);
         setLocationRelativeTo(null);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         pack();
