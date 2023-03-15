@@ -186,6 +186,12 @@ public class GraphGUI extends JFrame implements MouseListener {
         GUI.setVisible(true);
     }
 
+    public void drawSelection(int x, int y, Color color){
+        Graphics g = getGraphics();
+        g.setColor(color);
+        g.drawOval(x, y + PLANET_SIZE, PLANET_SIZE, PLANET_SIZE);
+    }
+
 //Mouse clicky on the planet causes huge massive things to happen
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -199,9 +205,11 @@ public class GraphGUI extends JFrame implements MouseListener {
 //                TODO: Add selected planet to the algorithm and srcLabel label
                 if(srcLabel.getText().equals("")) {
                     srcLabel.setText(String.valueOf(planet.getKey()));
+                    drawSelection(planetCoordinates[0], planetCoordinates[1], Color.red);
                 }
                 else if(destLabel.getText().equals("")){
                     destLabel.setText(String.valueOf(planet.getKey()));
+                    drawSelection(planetCoordinates[0], planetCoordinates[1], Color.green);
                 }
 
             }
