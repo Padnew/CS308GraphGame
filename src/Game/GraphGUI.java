@@ -91,17 +91,17 @@ public class GraphGUI extends JFrame implements MouseListener {
             int firstNode = Integer.parseInt(srcLabel.getText());
             int secondNode = Integer.parseInt(destLabel.getText());
 //            If the guess is successful
-            if(graph.djikstraAlgo(firstNode,secondNode).get(0) == Integer.parseInt(guessTextField.getText())){
+            if(graph.dijkstraAlgo(firstNode,secondNode).get(0) == Integer.parseInt(guessTextField.getText())){
                 JOptionPane.showMessageDialog(null,
                         "Correct!\nTotal weight = " +
-                                graph.djikstraAlgo(firstNode,secondNode).get(0)
+                                graph.dijkstraAlgo(firstNode,secondNode).get(0)
                         +"\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Congrats!", JOptionPane.ERROR_MESSAGE, i);
             }
 //            If the guess is unsuccessful
             else{
                 JOptionPane.showMessageDialog(null,
                         "Aw unlucky!\nTotal weight = " +
-                                graph.djikstraAlgo(firstNode,secondNode).get(0)
+                                graph.dijkstraAlgo(firstNode,secondNode).get(0)
                                 +"\nYour guess = " + Integer.parseInt(guessTextField.getText()),"Unlucky!", JOptionPane.ERROR_MESSAGE, i);
 
             }

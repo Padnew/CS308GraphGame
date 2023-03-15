@@ -14,5 +14,5 @@ public interface GraphADT {
 
     int numOfVertices();
 
-    ArrayList<Integer> djikstraAlgo(int startNode, int endNode);
+    ArrayList<Integer> dijkstraAlgo(int startNode, int endNode);
 }
