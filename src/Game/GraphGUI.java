@@ -34,21 +34,7 @@ public class GraphGUI extends JFrame implements MouseListener {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-//                Drawing planets
-            for(Planet planet : graph.adjacencyList.values()){
-                    int[] coordinates = drawPlanet((Graphics2D) g);
-                    locations.put(planet.getNode(), coordinates);
-                }
-//            Drawing edges
-                for (Planet planet : graph.adjacencyList.values()) {
-                    HashMap<Integer, Integer> neighbours = planet.getNeighbours();
-                    int[] currentPlanetCoordinate = locations.get(planet.getNode());
-                    for(int id : neighbours.keySet()){
-                        int[] neighbourCoordinates = locations.get(id);
-                        int weight = neighbours.get(id);
-                        drawEdge((Graphics2D) g, currentPlanetCoordinate[0],currentPlanetCoordinate[1], neighbourCoordinates[0], neighbourCoordinates[1], weight);
-                    }
-                }
+                drawGraph(g, graph);
             }
         };
 
@@ -173,6 +159,23 @@ public class GraphGUI extends JFrame implements MouseListener {
             }
         }
     }
+    private void drawGraph(Graphics g, Graph graph){
+        //                Drawing planets
+        for(Planet planet : graph.adjacencyList.values()){
+            int[] coordinates = drawPlanet((Graphics2D) g);
+            locations.put(planet.getNode(), coordinates);
+        }
+//            Drawing edges
+        for (Planet planet : graph.adjacencyList.values()) {
+            HashMap<Integer, Integer> neighbours = planet.getNeighbours();
+            int[] currentPlanetCoordinate = locations.get(planet.getNode());
+            for(int id : neighbours.keySet()){
+                int[] neighbourCoordinates = locations.get(id);
+                int weight = neighbours.get(id);
+                drawEdge((Graphics2D) g, currentPlanetCoordinate[0],currentPlanetCoordinate[1], neighbourCoordinates[0], neighbourCoordinates[1], weight);
+            }
+        }
+    }
 //TODO: Custom edge, dashed line? DrawString should say cost followed by weight?
     public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY, int weight){
         g.setColor(Color.white);
@@ -181,7 +184,7 @@ public class GraphGUI extends JFrame implements MouseListener {
         g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
     }
 
-    public void initGraph(Graph graph) {
+    public void initialiseGraphGUI(Graph graph) {
         GraphGUI GUI = new GraphGUI(graph);
         GUI.setVisible(true);
     }
