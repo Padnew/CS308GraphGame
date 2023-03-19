@@ -29,7 +29,6 @@ public class GraphGUI extends JFrame implements MouseListener {
     private HashMap<Integer, int[]> locations = new HashMap<>();
     public GraphGUI(Graph graph) {
         setTitle("AstroTraveller");
-
         graphPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
@@ -66,53 +65,6 @@ public class GraphGUI extends JFrame implements MouseListener {
 //        Adds the bottom panl to the main panel
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-//        This action listener is for when the press submit
-        submitButton.addActionListener(e -> {
-//            Super easy and not verbose code to display an icon on a message to a scaled size
-            ImageIcon i = new ImageIcon("data/rocketIcon.png");
-            Image imageVersion = i.getImage();
-            Image imageScaled = imageVersion.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-            i = new ImageIcon(imageScaled);
-
-            int firstNode = Integer.parseInt(srcLabel.getText());
-            int secondNode = Integer.parseInt(destLabel.getText());
-//            If the guess is successful
-            if(graph.dijkstraAlgo(firstNode,secondNode).get(0) == Integer.parseInt(guessTextField.getText())){
-                JOptionPane.showMessageDialog(null,
-                        "Correct!\nTotal weight = " +
-                                graph.dijkstraAlgo(firstNode,secondNode).get(0)
-                        +"\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Congrats!", JOptionPane.ERROR_MESSAGE, i);
-            }
-//            If the guess is unsuccessful
-            else{
-                JOptionPane.showMessageDialog(null,
-                        "Aw unlucky!\nTotal weight = " +
-                                graph.dijkstraAlgo(firstNode,secondNode).get(0)
-                                +"\nYour guess = " + Integer.parseInt(guessTextField.getText()),"Unlucky!", JOptionPane.ERROR_MESSAGE, i);
-
-            }
-//            Reset the labels after a guess
-//            TODO: Consider option pane to reset values or not
-            guessTextField.setText("");
-            srcLabel.setText("");
-            destLabel.setText("");
-        });
-        randomiseButton.addActionListener(e -> {
-            Random rand = new Random();
-            int num = rand.nextInt(graph.numOfVertices());
-            if(srcLabel.getText().equals("")) {
-                srcLabel.setText(String.valueOf(num));
-            }
-            else if(destLabel.getText().equals("")){
-                destLabel.setText(String.valueOf(num));
-            }
-        });
-        clearLabelsButton.addActionListener(e -> {
-            srcLabel.setText("");
-            destLabel.setText("");
-        });
-//        mouse listener is just for selecting planets
-        graphPanel.addMouseListener(this);
 //        Boilerplate Java gui stuff
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -159,6 +111,27 @@ public class GraphGUI extends JFrame implements MouseListener {
             }
         }
     }
+    public JButton getSubmitButton(){
+        return submitButton;
+    }
+    public JLabel getSrcLabel(){
+        return srcLabel;
+    }
+    public JLabel getDestLabel(){
+        return destLabel;
+    }
+    public JTextField getGuessTextField(){
+        return guessTextField;
+    }
+    public JButton getRandomiseButton(){
+        return randomiseButton;
+    }
+    public JButton getClearLabelsButton(){
+        return clearLabelsButton;
+    }
+    public JPanel getGraphPanel(){
+        return graphPanel;
+    }
     private void drawGraph(Graphics g, Graph graph){
         //                Drawing planets
         for(Planet planet : graph.adjacencyList.values()){
@@ -184,9 +157,8 @@ public class GraphGUI extends JFrame implements MouseListener {
         g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
     }
 
-    public void initialiseGraphGUI(Graph graph) {
-        GraphGUI GUI = new GraphGUI(graph);
-        GUI.setVisible(true);
+    public GraphGUI initialiseGraphGUI(Graph graph) {
+        return new GraphGUI(graph);
     }
 
     public void drawSelection(int x, int y, Color color){
