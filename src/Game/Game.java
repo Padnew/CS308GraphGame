@@ -27,10 +27,6 @@ public class Game implements MouseListener {
     JButton clearLabelsButton;
     JPanel graphPanel;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
-    Graphics g;
-    //    Throws an exception, because... like it has to?
-//    public Game() throws Exception {
-//    }
 
     public Game() throws Exception {
         submitButton = graphGUI.getSubmitButton();
@@ -97,7 +93,6 @@ public class Game implements MouseListener {
             int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
             int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
             coor = new int[]{x,y};
-//        For the planet picture instead of just a lame circle
             return coor;
         }
         else {

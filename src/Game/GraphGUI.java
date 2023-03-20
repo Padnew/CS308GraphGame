@@ -122,10 +122,6 @@ public class GraphGUI extends JFrame {
         return graphPanel;
     }
 
-    public int getPlanetSize() {
-        return PLANET_SIZE;
-    }
-
     public void drawSelection(int x, int y, Color color) {
         Graphics g = getGraphics();
         g.setColor(color);
