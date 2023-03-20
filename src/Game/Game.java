@@ -13,7 +13,9 @@ import java.util.Random;
 public class Game {
     Universe universe = new Universe();
     Graph graph = universe.buildGraph(universe.readFile());
-    GraphGUI graphGUI = new GraphGUI(graph);
+    private HashMap<Integer, int[]> locations = new HashMap<>();
+
+    GraphGUI graphGUI = new GraphGUI(graph, locations);
     JButton submitButton;
     JLabel srcLabel;
     JLabel destLabel;
@@ -21,10 +23,8 @@ public class Game {
     JButton randomiseButton;
     JButton clearLabelsButton;
     JPanel graphPanel;
-    int PLANET_SIZE;
+    private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
     Graphics g;
-    private HashMap<Integer, int[]> locations = new HashMap<>();
-
     //    Throws an exception, because... like it has to?
 //    public Game() throws Exception {
 //    }
@@ -37,7 +37,6 @@ public class Game {
         randomiseButton = graphGUI.getRandomiseButton();
         clearLabelsButton = graphGUI.getClearLabelsButton();
         graphPanel = graphGUI.getGraphPanel();
-        PLANET_SIZE = graphGUI.getPlanetSize();
 //        g = graphGUI.getGraphGraphics();
         submitButton.addActionListener(e -> {
             // Super easy and not verbose code to display an icon on a message to a scaled size
@@ -85,11 +84,54 @@ public class Game {
             destLabel.setText("");
         });
 //        mouse listener is just for selecting planets
-        graphPanel.addMouseListener(graphGUI);
+//        graphPanel.addMouseListener(graphGUI);
 //        graphGUI.drawGraph((Graphics2D) g, graph);
     }
+    public int[] getCoordinates() {
+        int panelWidth = graphPanel.getWidth();
+        int panelHeight = graphPanel.getHeight();
+        int[] coor;
+        if(locations.values().isEmpty()){
+            int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
+            int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
+            coor = new int[]{x,y};
+//        For the planet picture instead of just a lame circle
+            return coor;
+        }
+        else {
+//            Should generate coordinates which dont overlap with another planet
+            while (true) {
+                int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
+                int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
+                coor = new int[]{x, y};
+                boolean coordinatesOverlap = false;
+                for (int[] oldCoordinates : locations.values()) {
+                    if (!(x > oldCoordinates[0] + PLANET_SIZE*3 || x + PLANET_SIZE*3 < oldCoordinates[0]
+                            || y > oldCoordinates[1] + PLANET_SIZE*3 || y + PLANET_SIZE*3 < oldCoordinates[1])
+                    ) {
+                        coordinatesOverlap = true;
+                        break;
+                    }
+                }
+                if (!coordinatesOverlap) {
+                    return coor;
+                }
+            }
+        }
+    }
+    public void mapCoordinates(Graph graph){
+        //                Drawing planets
+        for(Planet planet : graph.adjacencyList.values()){
+            int[] coordinates = getCoordinates();
+            locations.put(planet.getNode(), coordinates);
+        }
+//        This handsome lil function cost me a few days of time
+        graphGUI.repaint();
+    }
     public void displayGame(){
-        graphGUI.mapCoordinates(graph);
+        mapCoordinates(graph);
         graphGUI.setVisible(true);
     }
+
+
 }
