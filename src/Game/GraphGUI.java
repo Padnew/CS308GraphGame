@@ -26,15 +26,15 @@ public class GraphGUI extends JFrame {
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
-    public Graphics graphics;
+
     public GraphGUI(Graph graph, HashMap<Integer, int[]> locations) {
         setTitle("AstroTraveller");
         mainPanel = new JPanel();
         graphPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
-                Toolkit tool=Toolkit.getDefaultToolkit();
-                Image i=tool.getImage("data/planet.png");
+                Toolkit tool = Toolkit.getDefaultToolkit();
+                Image i = tool.getImage("data/planet.png");
                 super.paintComponent(g);
 //            Drawing edges
                 for (Planet planet : graph.adjacencyList.values()) {
@@ -42,20 +42,20 @@ public class GraphGUI extends JFrame {
                     int[] currentPlanetCoordinate = locations.get(planet.getNode());
 //                    Adjusting the coordinates since java swing is silly and maps images/ovals
 //                    to the top left in a square, so the lines will meet in the middle of the image
-                    int cpX = currentPlanetCoordinate[0] + (PLANET_SIZE/2);
-                    int cpY = currentPlanetCoordinate[1] + (PLANET_SIZE/2);
-                    for(int id : neighbours.keySet()){
+                    int cpX = currentPlanetCoordinate[0] + (PLANET_SIZE / 2);
+                    int cpY = currentPlanetCoordinate[1] + (PLANET_SIZE / 2);
+                    for (int id : neighbours.keySet()) {
                         int[] neighbourCoordinates = locations.get(id);
-                        int nX = neighbourCoordinates[0] + (PLANET_SIZE/2);
-                        int nY = neighbourCoordinates[1] + (PLANET_SIZE/2);
+                        int nX = neighbourCoordinates[0] + (PLANET_SIZE / 2);
+                        int nY = neighbourCoordinates[1] + (PLANET_SIZE / 2);
                         int weight = neighbours.get(id);
                         g.setColor(Color.white);
-                        g.drawLine(cpX,cpY, nX, nY);
-                        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
+                        g.drawLine(cpX, cpY, nX, nY);
+                        g.drawString(Integer.toString(weight), (cpX + nX) / 2, (cpY + nY) / 2);
                     }
                 }
 //                Draw planets on top of the lines
-                for(int[] coordinates : locations.values()){
+                for (int[] coordinates : locations.values()) {
                     g.drawImage(i, coordinates[0], coordinates[1], PLANET_SIZE, PLANET_SIZE, this);
                 }
             }
@@ -94,74 +94,44 @@ public class GraphGUI extends JFrame {
         pack();
     }
 
-    public JButton getSubmitButton(){
+    public JButton getSubmitButton() {
         return submitButton;
     }
-    public JLabel getSrcLabel(){
+
+    public JLabel getSrcLabel() {
         return srcLabel;
     }
-    public JLabel getDestLabel(){
+
+    public JLabel getDestLabel() {
         return destLabel;
     }
-    public JTextField getGuessTextField(){
+
+    public JTextField getGuessTextField() {
         return guessTextField;
     }
-    public JButton getRandomiseButton(){
+
+    public JButton getRandomiseButton() {
         return randomiseButton;
     }
-    public JButton getClearLabelsButton(){
+
+    public JButton getClearLabelsButton() {
         return clearLabelsButton;
     }
-    public JPanel getGraphPanel(){
+
+    public JPanel getGraphPanel() {
         return graphPanel;
     }
-    public Graphics getGraphGraphics(){
-        return graphics;
-    }
-    public int getPlanetSize(){
+
+    public int getPlanetSize() {
         return PLANET_SIZE;
     }
-    public void drawSelection(int x, int y, Color color){
+
+    public void drawSelection(int x, int y, Color color) {
         Graphics g = getGraphics();
         g.setColor(color);
         g.drawOval(x, y + PLANET_SIZE, PLANET_SIZE, PLANET_SIZE);
     }
 
-//Mouse clicky on the planet causes huge massive things to happen
-//    @Override
-//    public void mouseClicked(MouseEvent e) {
-//        int clickedX = e.getX();
-//        int clickedY = e.getY();
-//        int[] clickPosition = new int[]{clickedX,clickedY};
-//        for(Map.Entry<Integer, int[]> planet : locations.entrySet()){
-//            int[] planetCoordinates = planet.getValue();
-////            +planet_size since the coordinates are placed at the top left and the square/hitbox is drawn out from that by its size
-//            if(((clickPosition[0] >= planetCoordinates[0]) && (clickPosition[0] <= planetCoordinates[0] + PLANET_SIZE)) && ((clickPosition[1] >= planetCoordinates[1]) && (clickPosition[1] <= planetCoordinates[1] + PLANET_SIZE))){
-////                TODO: Add selected planet to the algorithm and srcLabel label
-//                if(srcLabel.getText().equals("")) {
-//                    srcLabel.setText(String.valueOf(planet.getKey()));
-//                    drawSelection(planetCoordinates[0], planetCoordinates[1], Color.red);
-//                }
-//                else if(destLabel.getText().equals("")){
-//                    destLabel.setText(String.valueOf(planet.getKey()));
-//                    drawSelection(planetCoordinates[0], planetCoordinates[1], Color.green);
-//                }
-//
-//            }
-//        }
-//    }
-////    MouseListener generated methods -- Mostly ignore them
-//    @Override
-//    public void mousePressed(MouseEvent e) {}
-//
-//    @Override
-//    public void mouseReleased(MouseEvent e) {}
-//
-//    @Override
-//    public void mouseEntered(MouseEvent e) {}
-//
-//    @Override
-//    public void mouseExited(MouseEvent e) {}
 }
 
 

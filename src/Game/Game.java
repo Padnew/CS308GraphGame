@@ -4,13 +4,16 @@ import Graph.Graph;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /*
  * Game class is the controller and will create an instance of the view(GraphGUI) and model(Universe)
  */
-public class Game {
+public class Game implements MouseListener {
     Universe universe = new Universe();
     Graph graph = universe.buildGraph(universe.readFile());
     private HashMap<Integer, int[]> locations = new HashMap<>();
@@ -84,8 +87,7 @@ public class Game {
             destLabel.setText("");
         });
 //        mouse listener is just for selecting planets
-//        graphPanel.addMouseListener(graphGUI);
-//        graphGUI.drawGraph((Graphics2D) g, graph);
+        graphPanel.addMouseListener(this);
     }
     public int[] getCoordinates() {
         int panelWidth = graphPanel.getWidth();
@@ -128,10 +130,43 @@ public class Game {
 //        This handsome lil function cost me a few days of time
         graphGUI.repaint();
     }
+
     public void displayGame(){
         mapCoordinates(graph);
         graphGUI.setVisible(true);
     }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int clickedX = e.getX();
+        int clickedY = e.getY();
+        int[] clickPosition = new int[]{clickedX,clickedY};
+        for(Map.Entry<Integer, int[]> planet : locations.entrySet()){
+            int[] planetCoordinates = planet.getValue();
+//            +planet_size since the coordinates are placed at the top left and the square/hitbox is drawn out from that by its size
+            if(((clickPosition[0] >= planetCoordinates[0]) && (clickPosition[0] <= planetCoordinates[0] + PLANET_SIZE)) && ((clickPosition[1] >= planetCoordinates[1]) && (clickPosition[1] <= planetCoordinates[1] + PLANET_SIZE))){
+//                TODO: Add selected planet to the algorithm and srcLabel label
+                if(srcLabel.getText().equals("")) {
+                    srcLabel.setText(String.valueOf(planet.getKey()));
+                    graphGUI.drawSelection(planetCoordinates[0], planetCoordinates[1], Color.red);
+                }
+                else if(destLabel.getText().equals("")){
+                    destLabel.setText(String.valueOf(planet.getKey()));
+                    graphGUI.drawSelection(planetCoordinates[0], planetCoordinates[1], Color.green);
+                }
 
+            }
+        }
+    }
+    //    MouseListener generated methods -- Mostly ignore them
+    @Override
+    public void mousePressed(MouseEvent e) {}
 
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }
