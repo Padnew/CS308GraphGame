@@ -26,18 +26,19 @@ public class GraphGUI extends JFrame implements MouseListener {
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
-    private HashMap<Integer, int[]> locations = new HashMap<>();
+    private Graphics graphics;
+    HashMap<Integer, int[]> locations = new HashMap<>();
     public GraphGUI(Graph graph) {
         setTitle("AstroTraveller");
+        mainPanel = new JPanel();
         graphPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                drawGraph(g, graph);
+                graphics = g;
+                drawGraph(graph);
             }
         };
-
-        mainPanel = new JPanel();
 //        Bottom panel is necessary to hold all the none graph related components, graph panel wasnt enough apprently
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         guessLabel = new JLabel("Guess:");
@@ -50,7 +51,6 @@ public class GraphGUI extends JFrame implements MouseListener {
         mainPanel.setLayout(new BorderLayout());
         graphPanel.setBackground(Color.BLACK);
         clearLabelsButton = new JButton("Clear selections");
-
 //        Adding components to the bottom panel
 //        TODO: Split bottom panel into left and right panel for controls
         mainPanel.add(graphPanel);
@@ -64,7 +64,6 @@ public class GraphGUI extends JFrame implements MouseListener {
         bottomPanel.add(clearLabelsButton);
 //        Adds the bottom panl to the main panel
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
 //        Boilerplate Java gui stuff
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
@@ -73,44 +72,7 @@ public class GraphGUI extends JFrame implements MouseListener {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         pack();
     }
-    public int[] drawPlanet(Graphics2D g) {
-        int panelWidth = graphPanel.getWidth();
-        int panelHeight = graphPanel.getHeight();
-        Toolkit tool=Toolkit.getDefaultToolkit();
-        Image i=tool.getImage("data/planet.png");
-        int x = 0;
-        int y = 0;
-        int[] coor;
-        if(locations.values().isEmpty()){
-            x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
-            y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
-            coor = new int[]{x,y};
-//        For the planet picture instead of just a lame circle
-            g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
-            return coor;
-        }
-        else {
-//            Should generate coordinates which dont overlap with another planet
-            while (true) {
-                x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
-                y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
-                coor = new int[]{x, y};
-                boolean coordinatesOverlap = false;
-                for (int[] oldCoordinates : locations.values()) {
-                    if (!(x > oldCoordinates[0] + PLANET_SIZE*3 || x + PLANET_SIZE*3 < oldCoordinates[0]
-                            || y > oldCoordinates[1] + PLANET_SIZE*3 || y + PLANET_SIZE*3 < oldCoordinates[1])
-                    ) {
-                        coordinatesOverlap = true;
-                        break;
-                    }
-                }
-                if (!coordinatesOverlap) {
-                    g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
-                    return coor;
-                }
-            }
-        }
-    }
+
     public JButton getSubmitButton(){
         return submitButton;
     }
@@ -132,8 +94,58 @@ public class GraphGUI extends JFrame implements MouseListener {
     public JPanel getGraphPanel(){
         return graphPanel;
     }
-    private void drawGraph(Graphics g, Graph graph){
+    public Graphics getGraphGraphics(){
+        return graphics;
+    }
+    public int getPlanetSize(){
+        return PLANET_SIZE;
+    }
+//TODO: Custom edge, dashed line? DrawString should say cost followed by weight?
+
+    public void drawSelection(int x, int y, Color color){
+        Graphics g = getGraphics();
+        g.setColor(color);
+        g.drawOval(x, y + PLANET_SIZE, PLANET_SIZE, PLANET_SIZE);
+    }
+    public int[] drawPlanet(Graphics2D g) {
+        int panelWidth = graphPanel.getWidth();
+        int panelHeight = graphPanel.getHeight();
+        Toolkit tool=Toolkit.getDefaultToolkit();
+        Image i=tool.getImage("data/planet.png");
+        int[] coor;
+        if(locations.values().isEmpty()){
+            int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
+            int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
+            coor = new int[]{x,y};
+//        For the planet picture instead of just a lame circle
+            g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
+            return coor;
+        }
+        else {
+//            Should generate coordinates which dont overlap with another planet
+            while (true) {
+                int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
+                int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
+                coor = new int[]{x, y};
+                boolean coordinatesOverlap = false;
+                for (int[] oldCoordinates : locations.values()) {
+                    if (!(x > oldCoordinates[0] + PLANET_SIZE*3 || x + PLANET_SIZE*3 < oldCoordinates[0]
+                            || y > oldCoordinates[1] + PLANET_SIZE*3 || y + PLANET_SIZE*3 < oldCoordinates[1])
+                    ) {
+                        coordinatesOverlap = true;
+                        break;
+                    }
+                }
+                if (!coordinatesOverlap) {
+                    g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
+                    return coor;
+                }
+            }
+        }
+    }
+    public void drawGraph(Graph graph){
         //                Drawing planets
+        Graphics g = getGraphGraphics();
         for(Planet planet : graph.adjacencyList.values()){
             int[] coordinates = drawPlanet((Graphics2D) g);
             locations.put(planet.getNode(), coordinates);
@@ -149,22 +161,11 @@ public class GraphGUI extends JFrame implements MouseListener {
             }
         }
     }
-//TODO: Custom edge, dashed line? DrawString should say cost followed by weight?
     public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY, int weight){
         g.setColor(Color.white);
         g.drawLine(cpX+(PLANET_SIZE/2), cpY+(PLANET_SIZE/2), nX+(PLANET_SIZE/2), nY+(PLANET_SIZE/2));
 //        Places the weight in the middle of the line from the source to dest using a lil pythagorus equation
         g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
-    }
-
-    public GraphGUI initialiseGraphGUI(Graph graph) {
-        return new GraphGUI(graph);
-    }
-
-    public void drawSelection(int x, int y, Color color){
-        Graphics g = getGraphics();
-        g.setColor(color);
-        g.drawOval(x, y + PLANET_SIZE, PLANET_SIZE, PLANET_SIZE);
     }
 
 //Mouse clicky on the planet causes huge massive things to happen

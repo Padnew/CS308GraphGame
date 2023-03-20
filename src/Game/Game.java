@@ -4,6 +4,7 @@ import Graph.Graph;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Random;
 
 /*
@@ -12,6 +13,7 @@ import java.util.Random;
 public class Game {
     Universe universe = new Universe();
     Graph graph = universe.buildGraph(universe.readFile());
+    GraphGUI graphGUI = new GraphGUI(graph);
     JButton submitButton;
     JLabel srcLabel;
     JLabel destLabel;
@@ -19,11 +21,13 @@ public class Game {
     JButton randomiseButton;
     JButton clearLabelsButton;
     JPanel graphPanel;
+    int PLANET_SIZE;
+    Graphics g;
+    private HashMap<Integer, int[]> locations = new HashMap<>();
 
-//    Throws an exception, because... like it has to?
+    //    Throws an exception, because... like it has to?
 //    public Game() throws Exception {
 //    }
-GraphGUI graphGUI = new GraphGUI(graph);
 
     public Game() throws Exception {
         submitButton = graphGUI.getSubmitButton();
@@ -33,6 +37,8 @@ GraphGUI graphGUI = new GraphGUI(graph);
         randomiseButton = graphGUI.getRandomiseButton();
         clearLabelsButton = graphGUI.getClearLabelsButton();
         graphPanel = graphGUI.getGraphPanel();
+        PLANET_SIZE = graphGUI.getPlanetSize();
+//        g = graphGUI.getGraphGraphics();
         submitButton.addActionListener(e -> {
             // Super easy and not verbose code to display an icon on a message to a scaled size
             ImageIcon i = new ImageIcon("data/rocketIcon.png");
@@ -80,6 +86,7 @@ GraphGUI graphGUI = new GraphGUI(graph);
         });
 //        mouse listener is just for selecting planets
         graphPanel.addMouseListener(graphGUI);
+//        graphGUI.drawGraph((Graphics2D) g, graph);
     }
     public void displayGame(){
         graphGUI.setVisible(true);
