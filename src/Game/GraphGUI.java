@@ -26,7 +26,7 @@ public class GraphGUI extends JFrame implements MouseListener {
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
-    private Graphics graphics;
+    public Graphics graphics;
     HashMap<Integer, int[]> locations = new HashMap<>();
     public GraphGUI(Graph graph) {
         setTitle("AstroTraveller");
@@ -34,9 +34,28 @@ public class GraphGUI extends JFrame implements MouseListener {
         graphPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
+                Toolkit tool=Toolkit.getDefaultToolkit();
+                Image i=tool.getImage("data/planet.png");
                 super.paintComponent(g);
-                graphics = g;
-                drawGraph(graph);
+                for(int[] coordinates : locations.values()){
+                    g.drawImage(i, coordinates[0], coordinates[1], PLANET_SIZE, PLANET_SIZE, this);
+                }
+//            Drawing edges
+                for (Planet planet : graph.adjacencyList.values()) {
+                    HashMap<Integer, Integer> neighbours = planet.getNeighbours();
+                    int[] currentPlanetCoordinate = locations.get(planet.getNode());
+                    int cpX = currentPlanetCoordinate[0] + (PLANET_SIZE/2);
+                    int cpY = currentPlanetCoordinate[1] + (PLANET_SIZE/2);
+                    for(int id : neighbours.keySet()){
+                        int[] neighbourCoordinates = locations.get(id);
+                        int nX = neighbourCoordinates[0] + (PLANET_SIZE/2);
+                        int nY = neighbourCoordinates[1] + (PLANET_SIZE/2);
+                        int weight = neighbours.get(id);
+                        g.setColor(Color.white);
+                        g.drawLine(cpX,cpY, nX, nY);
+                        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
+                    }
+                }
             }
         };
 //        Bottom panel is necessary to hold all the none graph related components, graph panel wasnt enough apprently
@@ -107,18 +126,15 @@ public class GraphGUI extends JFrame implements MouseListener {
         g.setColor(color);
         g.drawOval(x, y + PLANET_SIZE, PLANET_SIZE, PLANET_SIZE);
     }
-    public int[] drawPlanet(Graphics2D g) {
+    public int[] getCoordinates() {
         int panelWidth = graphPanel.getWidth();
         int panelHeight = graphPanel.getHeight();
-        Toolkit tool=Toolkit.getDefaultToolkit();
-        Image i=tool.getImage("data/planet.png");
         int[] coor;
         if(locations.values().isEmpty()){
             int x = (int) (Math.random() * (panelWidth - PLANET_SIZE));
             int y = (int) (Math.random() * (panelHeight - PLANET_SIZE));
             coor = new int[]{x,y};
 //        For the planet picture instead of just a lame circle
-            g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
             return coor;
         }
         else {
@@ -137,35 +153,18 @@ public class GraphGUI extends JFrame implements MouseListener {
                     }
                 }
                 if (!coordinatesOverlap) {
-                    g.drawImage(i, x, y, PLANET_SIZE, PLANET_SIZE, this);
                     return coor;
                 }
             }
         }
     }
-    public void drawGraph(Graph graph){
+    public void mapCoordinates(Graph graph){
         //                Drawing planets
-        Graphics g = getGraphGraphics();
         for(Planet planet : graph.adjacencyList.values()){
-            int[] coordinates = drawPlanet((Graphics2D) g);
+            int[] coordinates = getCoordinates();
             locations.put(planet.getNode(), coordinates);
         }
-//            Drawing edges
-        for (Planet planet : graph.adjacencyList.values()) {
-            HashMap<Integer, Integer> neighbours = planet.getNeighbours();
-            int[] currentPlanetCoordinate = locations.get(planet.getNode());
-            for(int id : neighbours.keySet()){
-                int[] neighbourCoordinates = locations.get(id);
-                int weight = neighbours.get(id);
-                drawEdge((Graphics2D) g, currentPlanetCoordinate[0],currentPlanetCoordinate[1], neighbourCoordinates[0], neighbourCoordinates[1], weight);
-            }
-        }
-    }
-    public void drawEdge(Graphics2D g, int cpX, int cpY, int nX, int nY, int weight){
-        g.setColor(Color.white);
-        g.drawLine(cpX+(PLANET_SIZE/2), cpY+(PLANET_SIZE/2), nX+(PLANET_SIZE/2), nY+(PLANET_SIZE/2));
-//        Places the weight in the middle of the line from the source to dest using a lil pythagorus equation
-        g.drawString(Integer.toString(weight), (cpX+ nX) / 2, (cpY + nY)/ 2);
+        repaint();
     }
 
 //Mouse clicky on the planet causes huge massive things to happen

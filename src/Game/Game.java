@@ -89,6 +89,7 @@ public class Game {
 //        graphGUI.drawGraph((Graphics2D) g, graph);
     }
     public void displayGame(){
+        graphGUI.mapCoordinates(graph);
         graphGUI.setVisible(true);
     }
 }
