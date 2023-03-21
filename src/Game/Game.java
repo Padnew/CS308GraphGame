@@ -66,6 +66,7 @@ public class Game implements MouseListener {
             guessTextField.setText("");
             srcLabel.setText("");
             destLabel.setText("");
+            graphGUI.repaint();
         });
         randomiseButton.addActionListener(e -> {
             Random rand = new Random();
