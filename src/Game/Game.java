@@ -81,6 +81,7 @@ public class Game implements MouseListener {
         clearLabelsButton.addActionListener(e -> {
             srcLabel.setText("");
             destLabel.setText("");
+            graphGUI.repaint();
         });
 //        mouse listener is just for selecting planets
         graphPanel.addMouseListener(this);
