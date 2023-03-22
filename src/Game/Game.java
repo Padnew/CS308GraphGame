@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.lang.Math;
 
 /*
  * Game class is the controller and will create an instance of the view(GraphGUI) and model(Universe)
@@ -17,6 +18,7 @@ public class Game implements MouseListener {
     Universe universe = new Universe();
     Graph graph = universe.buildGraph(universe.readFile());
     private HashMap<Integer, int[]> locations = new HashMap<>();
+    Player player = new Player();
 
     GraphGUI graphGUI = new GraphGUI(graph, locations);
     JButton submitButton;
@@ -52,6 +54,7 @@ public class Game implements MouseListener {
                         "Correct!\nTotal weight = " +
                                 graph.dijkstraAlgo(firstNode,secondNode).get(0)
                                 +"\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Congrats!", JOptionPane.ERROR_MESSAGE, i);
+                player.incrementScore();
             }
             // If the guess is unsuccessful
             else{
@@ -59,7 +62,16 @@ public class Game implements MouseListener {
                         "Aw unlucky!\nTotal weight = " +
                                 graph.dijkstraAlgo(firstNode,secondNode).get(0)
                                 +"\nYour guess = " + Integer.parseInt(guessTextField.getText()),"Unlucky!", JOptionPane.ERROR_MESSAGE, i);
-
+                int diff = Math.abs(graph.dijkstraAlgo(firstNode,secondNode).get(0) - Integer.parseInt(guessTextField.getText())); //Absolute value of actual distance - guess
+                player.decrementFuel(diff);
+                if (player.getFuel() <= 0){ //If player has ran out of fuel then end game
+                    //TODO - Change message
+                    //TODO - Reset game on fuel run out
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Oh No! You have ran out of fuel!\nYou got " + player.getScore() + " points and " + player.getFuel() +" fuel, restarting game");
+                }
+                player.resetPlayer();
             }
             // Reset the labels after a guess
             // TODO: Consider option pane to reset values or not
