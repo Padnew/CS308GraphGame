@@ -73,9 +73,13 @@ public class Game implements MouseListener {
             int num = rand.nextInt(graph.numOfVertices());
             if(srcLabel.getText().equals("")) {
                 srcLabel.setText(String.valueOf(num));
+                int[] coords = locations.get(num);
+                graphGUI.drawSelection(coords[0], coords[1], Color.red);
             }
             else if(destLabel.getText().equals("")){
                 destLabel.setText(String.valueOf(num));
+                int[] coords = locations.get(num);
+                graphGUI.drawSelection(coords[0], coords[1], Color.green);
             }
         });
 //        This action listener is for when the press submit
