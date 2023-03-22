@@ -64,12 +64,12 @@ public class Game implements MouseListener {
                                 +"\nYour guess = " + Integer.parseInt(guessTextField.getText()),"Unlucky!", JOptionPane.ERROR_MESSAGE, i);
                 int diff = Math.abs(graph.dijkstraAlgo(firstNode,secondNode).get(0) - Integer.parseInt(guessTextField.getText())); //Absolute value of actual distance - guess
                 player.decrementFuel(diff);
-                if (player.getFuel() <= 0){ //If player has ran out of fuel then end game
+                if (player.getFuel() <= 0){ //If player has ran out of fuel then restart game
                     //TODO - Change message
                     //TODO - Reset game on fuel run out
                     JOptionPane.showMessageDialog(
                             null,
-                            "Oh No! You have ran out of fuel!\nYou got " + player.getScore() + " points and " + player.getFuel() +" fuel, restarting game");
+                            "Oh No! You have ran out of fuel!\nYou got " + player.getScore() + " points and " + player.getFuel() +" fuel, restarting game"); //Display end game stats
                 }
                 player.resetPlayer();
             }
