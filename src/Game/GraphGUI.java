@@ -22,21 +22,24 @@ public class GraphGUI extends JFrame {
     private JLabel selectedLabel;
     private JLabel srcLabel;
     private JLabel destLabel;
-    //    TODO: Agree on a size of the game window
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
 
     public GraphGUI(Graph graph, HashMap<Integer, int[]> locations) {
         setTitle("AstroTraveller");
+//        Generate the main body of the GUI
         mainPanel = new JPanel();
         graphPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
+//                All drawing is fully dependant on the locations Hashmap from the Game class
+//                So repaint will be called after the locations hashmap is generated
+//                Repaint will essentially just draw everything again onto the graph panel
                 Toolkit tool = Toolkit.getDefaultToolkit();
                 Image i = tool.getImage("data/planet.png");
                 super.paintComponent(g);
-//            Drawing edges
+//            Drawing edges first
                 for (Planet planet : graph.adjacencyList.values()) {
                     HashMap<Integer, Integer> neighbours = planet.getNeighbours();
                     int[] currentPlanetCoordinate = locations.get(planet.getNode());
@@ -44,13 +47,17 @@ public class GraphGUI extends JFrame {
 //                    to the top left in a square, so the lines will meet in the middle of the image
                     int cpX = currentPlanetCoordinate[0] + (PLANET_SIZE / 2);
                     int cpY = currentPlanetCoordinate[1] + (PLANET_SIZE / 2);
+//                    For every neighbour of this current planet
                     for (int id : neighbours.keySet()) {
                         int[] neighbourCoordinates = locations.get(id);
+//                        + planet_size/2 is to get the exact centre of each node
                         int nX = neighbourCoordinates[0] + (PLANET_SIZE / 2);
                         int nY = neighbourCoordinates[1] + (PLANET_SIZE / 2);
+//                        get the value of the key; the weight of the edge between the source and neighbour
                         int weight = neighbours.get(id);
                         g.setColor(Color.white);
                         g.drawLine(cpX, cpY, nX, nY);
+//                        This will place the weight of the line directly in the middle of the two planets on the edge
                         g.drawString(Integer.toString(weight), (cpX + nX) / 2, (cpY + nY) / 2);
                     }
                 }
@@ -60,7 +67,7 @@ public class GraphGUI extends JFrame {
                 }
             }
         };
-//        Bottom panel is necessary to hold all the none graph related components, graph panel wasnt enough apprently
+//        Bottom panel is necessary to hold all the none graph related components, will get attached to graph panel
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         guessLabel = new JLabel("Guess:");
         selectedLabel = new JLabel("Selected node: ");
@@ -94,6 +101,7 @@ public class GraphGUI extends JFrame {
         pack();
     }
 
+//getters for each component the Game class needs to add action listeners or interract with
     public JButton getSubmitButton() {
         return submitButton;
     }
@@ -121,7 +129,7 @@ public class GraphGUI extends JFrame {
     public JPanel getGraphPanel() {
         return graphPanel;
     }
-
+//This will get passed coordinates from the mouseClicked function from Game.Java and draw a circle round it
     public void drawSelection(int x, int y, Color color) {
         Graphics g = getGraphics();
         g.setColor(color);

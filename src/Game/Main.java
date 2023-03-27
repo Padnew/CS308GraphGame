@@ -4,7 +4,9 @@ package Game;
 */
 public class Main {
     public static void main(String[] args) throws Exception {
+//        Main will init the game an
         Game game = new Game();
+        game.buildGame();
         game.displayGame();
     }
 }
