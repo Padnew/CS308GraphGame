@@ -48,11 +48,12 @@ public class Graph implements GraphADT {
         distance.put(startNode, 0);
         totalWeight.put(startNode, 0);
 
+        // While there are unvisited nodes...
         while (!unvisited.isEmpty()) {
-            int current = -1;
-            int smallestDist = Integer.MAX_VALUE;
+            int current = -1; // Initialise current node
+            int smallestDist = Integer.MAX_VALUE; //Initialise shortest distance as infinity
             for (int node : unvisited) {
-                if (distance.get(node) < smallestDist) {
+                if (distance.get(node) < smallestDist) { //Checks if current node has shortest distance
                     current = node;
                     smallestDist = distance.get(node);
                 }
@@ -62,13 +63,13 @@ public class Graph implements GraphADT {
                 break;
             }
             unvisited.remove(Integer.valueOf(current));
-            for (int neighbor : adjacencyList.get(current).getNeighbours().keySet()) {
-                int weight = adjacencyList.get(current).getNeighbours().get(neighbor);
-                int alt = distance.get(current) + weight;
-                if (alt < distance.get(neighbor)) {
-                    distance.put(neighbor, alt);
-                    previous.put(neighbor, current);
-                    totalWeight.put(neighbor, totalWeight.get(current) + weight); // added
+            for (int neighbor : adjacencyList.get(current).getNeighbours().keySet()) { //For every neighbor of current node
+                int weight = adjacencyList.get(current).getNeighbours().get(neighbor); // Get weight of edge between curr and neighbor
+                int alt = distance.get(current) + weight; // Calculate olternate distance
+                if (alt < distance.get(neighbor)) { // If alternate distance is shorter than curr distance
+                    distance.put(neighbor, alt); // Update distance in keymap
+                    previous.put(neighbor, current); //Update previous node of neighbor
+                    totalWeight.put(neighbor, totalWeight.get(current) + weight); // Update total path weight
                 }
             }
         }
