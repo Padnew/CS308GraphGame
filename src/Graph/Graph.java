@@ -7,6 +7,7 @@ import java.util.*;
  * Graph will implement the GraphADT interface
  */
 public class Graph implements GraphADT {
+    
     public Map<Integer, Planet> adjacencyList;
 
     public Graph() {
