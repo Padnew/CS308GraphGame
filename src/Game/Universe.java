@@ -13,7 +13,7 @@ public class Universe {
     ArrayList<Planet> planets = new ArrayList<>();
     Graph graph = new Graph();
     public ArrayList<Planet> readFile() throws Exception{
-        File file = new File("/Users/rossdunn3/Desktop/cs308Planets/CS308GraphGame/data/graphData.txt");
+        File file = new File("graphData.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         String st;

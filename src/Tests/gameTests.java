@@ -1,18 +1,17 @@
 package Tests;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import org.junit.*;
 
 import Game.Game;
 
-public class gameTests {
-    
-    @Test
-    public void test1() throws Exception {
-        
-        Game game = new Game();
+import static org.junit.Assert.*;
 
-        assertEquals(2, 1 + 1);
+public class gameTests {
+    private Game game;
+
+    @Before
+    public void setUp() throws Exception {
+        game = new Game();
     }
 }
+
