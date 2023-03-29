@@ -22,6 +22,8 @@ public class GraphGUI extends JFrame {
     private JLabel selectedLabel;
     private JLabel srcLabel;
     private JLabel destLabel;
+    private JLabel scoreLabel;
+    private JLabel fuelLabel;
     private final int WIDTH = 1000;
     private final int HEIGHT = 800;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
@@ -73,6 +75,8 @@ public class GraphGUI extends JFrame {
         selectedLabel = new JLabel("Selected node: ");
         srcLabel = new JLabel("");
         destLabel = new JLabel("");
+        scoreLabel = new JLabel();
+        fuelLabel = new JLabel();
         randomiseButton = new JButton("Randomise");
         guessTextField = new JTextField(3);
         submitButton = new JButton("Submit");
@@ -90,6 +94,10 @@ public class GraphGUI extends JFrame {
         bottomPanel.add(destLabel);
         bottomPanel.add(randomiseButton);
         bottomPanel.add(clearLabelsButton);
+        bottomPanel.add(new JLabel("Score:"));
+        bottomPanel.add(scoreLabel);
+        bottomPanel.add(new JLabel("Fuel:"));
+        bottomPanel.add(fuelLabel);
 //        Adds the bottom panl to the main panel
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 //        Boilerplate Java gui stuff
@@ -125,6 +133,8 @@ public class GraphGUI extends JFrame {
     public JButton getClearLabelsButton() {
         return clearLabelsButton;
     }
+    public JLabel getScoreLabel(){return scoreLabel;}
+    public JLabel getFuelLabel(){return fuelLabel;}
 
     public JPanel getGraphPanel() {
         return graphPanel;

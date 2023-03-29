@@ -7,7 +7,7 @@ package Game;
 public class Player {
     int score;
     int fuel;
-    private final int START_FUEL = 200; // Initial Fuel
+    private final int START_FUEL = 50; // Initial Fuel
 
     public Player(){
         this.score = 0;

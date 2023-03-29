@@ -27,6 +27,8 @@ public class Game implements MouseListener {
     JTextField guessTextField;
     JButton randomiseButton;
     JButton clearLabelsButton;
+    JLabel fuelLabel;
+    JLabel scoreLabel;
     JPanel graphPanel;
     private final int PLANET_SIZE = 30; //Scales the size of the nodes/planets
 
@@ -38,7 +40,11 @@ public class Game implements MouseListener {
         guessTextField = graphGUI.getGuessTextField();
         randomiseButton = graphGUI.getRandomiseButton();
         clearLabelsButton = graphGUI.getClearLabelsButton();
+        fuelLabel = graphGUI.getFuelLabel();
+        scoreLabel = graphGUI.getScoreLabel();
         graphPanel = graphGUI.getGraphPanel();
+        scoreLabel.setText(String.valueOf(player.getScore()));
+        fuelLabel.setText(String.valueOf(player.getFuel()));
 //        Adding an action listener for submitting their guess
         submitButton.addActionListener(e -> {
             // Super easy and not verbose code to display an icon on a message to a scaled size
@@ -47,39 +53,46 @@ public class Game implements MouseListener {
             Image imageScaled = imageVersion.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             i = new ImageIcon(imageScaled);
 //          get the positions which are selected and in the labels on the GUI
-            int firstNode = Integer.parseInt(srcLabel.getText());
-            int secondNode = Integer.parseInt(destLabel.getText());
-            // If the guess is successful
-            if(graph.dijkstraAlgo(firstNode,secondNode).get(0) == Integer.parseInt(guessTextField.getText())){
-                JOptionPane.showMessageDialog(null,
-                        "Correct!\nTotal weight = " +
-                                graph.dijkstraAlgo(firstNode,secondNode).get(0)
-                                +"\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Congrats!", JOptionPane.ERROR_MESSAGE, i);
-                player.incrementScore();
+            if(srcLabel.getText() == "" || destLabel.getText() == ""){
+                JOptionPane.showMessageDialog(null, "Please select BOTH a destination and a source node");
             }
-            // If the guess is unsuccessful
-            else{
-                JOptionPane.showMessageDialog(null,
-                        "Aw unlucky!\nTotal weight = " +
-                                graph.dijkstraAlgo(firstNode,secondNode).get(0)
-                                +"\nYour guess = " + Integer.parseInt(guessTextField.getText()),"Unlucky!", JOptionPane.ERROR_MESSAGE, i);
-                int diff = Math.abs(graph.dijkstraAlgo(firstNode,secondNode).get(0) - Integer.parseInt(guessTextField.getText())); //Absolute value of actual distance - guess
-                player.decrementFuel(diff);
-                if (player.getFuel() <= 0){ //If player has ran out of fuel then restart game
-                    //TODO - Change message
-                    //TODO - Reset game on fuel run out
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Oh No! You have ran out of fuel!\nYou got " + player.getScore() + " points and " + player.getFuel() +" fuel, restarting game"); //Display end game stats
+            else {
+                int firstNode = Integer.parseInt(srcLabel.getText());
+                int secondNode = Integer.parseInt(destLabel.getText());
+                // If the guess is successful
+                if (graph.dijkstraAlgo(firstNode, secondNode).get(0) == Integer.parseInt(guessTextField.getText())) {
+                    player.incrementScore();
+                    JOptionPane.showMessageDialog(null,
+                            "Correct!\nTotal weight = " +
+                                    graph.dijkstraAlgo(firstNode, secondNode).get(0)
+                                    + "\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Congrats!", JOptionPane.ERROR_MESSAGE, i);
                 }
-                player.resetPlayer();
+                // If the guess is unsuccessful
+                else {
+                    JOptionPane.showMessageDialog(null,
+                            "Aw unlucky!\nTotal weight = " +
+                                    graph.dijkstraAlgo(firstNode, secondNode).get(0)
+                                    + "\nYour guess = " + Integer.parseInt(guessTextField.getText()), "Unlucky!", JOptionPane.ERROR_MESSAGE, i);
+                    int diff = Math.abs(graph.dijkstraAlgo(firstNode, secondNode).get(0) - Integer.parseInt(guessTextField.getText())); //Absolute value of actual distance - guess
+                    player.decrementFuel(diff);
+                    player.incrementScore();
+                    if (player.getFuel() <= 0) { //If player has ran out of fuel then restart game
+                        //TODO - Change message
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Oh No! You have ran out of fuel!\nYou got " + (player.getScore() - 1) + " points!! \n...restarting game", "Game over", JOptionPane.ERROR_MESSAGE, i); //Display end game stats
+                        player.resetPlayer();
+                    }
+                }
+                // Reset the labels after a guess
+                // TODO: Consider option pane to reset values or not
+                guessTextField.setText("");
+                srcLabel.setText("");
+                destLabel.setText("");
+                scoreLabel.setText(String.valueOf(player.getScore()));
+                fuelLabel.setText(String.valueOf(player.getFuel()));
+                graphGUI.repaint();
             }
-            // Reset the labels after a guess
-            // TODO: Consider option pane to reset values or not
-            guessTextField.setText("");
-            srcLabel.setText("");
-            destLabel.setText("");
-            graphGUI.repaint();
         });
 //        Button for randomising each guess
         randomiseButton.addActionListener(e -> {
