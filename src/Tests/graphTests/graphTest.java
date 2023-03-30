@@ -8,12 +8,19 @@ import org.junit.Test;
 
 import Graph.Graph;
 
+import Game.Universe;
+
+import Game.Game;
+
 public class graphTest {
 
 
    Graph graph = new Graph();
 
-
+   Universe universe = new Universe();
+  
+   
+    
 
     @Test
     public void testAddNode() {
@@ -41,14 +48,7 @@ public class graphTest {
 
     @Test
     public void testDijkstras() {
-
-        // test distances
-        // test distance from source
-        // test nodes are added to visited list, check initialised to all
-        // test neighbours
-        // test weights
-
-
+        // testing universe and planet instead
     }
 
 

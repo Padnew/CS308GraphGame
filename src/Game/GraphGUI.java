@@ -122,6 +122,10 @@ public class GraphGUI extends JFrame {
         return randomiseButton;
     }
 
+    public JLabel getGuessLabel() {
+        return guessLabel;
+    }
+
     public JButton getClearLabelsButton() {
         return clearLabelsButton;
     }
