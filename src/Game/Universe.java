@@ -13,14 +13,14 @@ public class Universe {
     ArrayList<Planet> planets = new ArrayList<>();
     Graph graph = new Graph();
     public ArrayList<Planet> readFile() throws Exception{
-        File file = new File("data/graphData.txt");
+        File file = new File("/Users/rossdunn3/Desktop/cs308Planets/CS308GraphGame/data/graphData.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         String st;
         int source;
         int destination;
         int weight;
-//        TODO: Tidy up the data reader
+        //        TODO: Tidy up the data reader
         while ((st = br.readLine()) != null){
             source = Integer.parseInt(st.substring(0,st.indexOf(' ')));
             destination = Integer.parseInt(st.substring(st.indexOf(' ')+1,st.indexOf(' ', st.indexOf(" ")+1)));
