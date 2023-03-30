@@ -103,7 +103,7 @@ public class graphGuiTests {
     // Testing the clear button is not null, the text label is Clear Sections and that it is use with enabled
     public void testingClearButtons() {
         JButton clearLabelButton = gui.getClearLabelsButton();
-        assertEquals("Clear Sections", clearLabelButton.getText());
+        assertEquals("Clear Selections", clearLabelButton.getText());
         assertNotNull(clearLabelButton);
         assertTrue(clearLabelButton.isEnabled());
     }
