@@ -13,5 +13,11 @@ public class gameTests {
     public void setUp() throws Exception {
         game = new Game();
     }
+
+    // Testing the randomise functionality
+    @Test
+    public void randomiseButton() {
+        
+    }
 }
 

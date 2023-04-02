@@ -40,4 +40,7 @@ public class playerTests {
         assertEquals(0, player.getScore());
         assertEquals(200, player.getFuel());
     }
+
+ 
+    
 }
