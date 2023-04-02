@@ -48,13 +48,14 @@ public class Game implements MouseListener {
 //        Adding an action listener for submitting their guess
         submitButton.addActionListener(e -> {
             // Super easy and not verbose code to display an icon on a message to a scaled size
-            ImageIcon i = new ImageIcon("data/rocketIcon.png");
+            ImageIcon i = new ImageIcon("./data/rocketIcon.png");
             Image imageVersion = i.getImage();
             Image imageScaled = imageVersion.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             i = new ImageIcon(imageScaled);
+
 //          get the positions which are selected and in the labels on the GUI
             if(srcLabel.getText() == "" || destLabel.getText() == ""){
-                JOptionPane.showMessageDialog(null, "Please select BOTH a destination and a source node");
+                JOptionPane.showMessageDialog(null, "Please select BOTH a destination and a source node","Enter both nodes",JOptionPane.ERROR_MESSAGE, i);
             }
             else {
                 int firstNode = Integer.parseInt(srcLabel.getText());
@@ -77,7 +78,6 @@ public class Game implements MouseListener {
                     player.decrementFuel(diff);
                     player.incrementScore();
                     if (player.getFuel() <= 0) { //If player has ran out of fuel then restart game
-                        //TODO - Change message
                         JOptionPane.showMessageDialog(
                                 null,
                                 "Oh No! You have ran out of fuel!\nYou got " + (player.getScore() - 1) + " points!! \n...restarting game", "Game over", JOptionPane.ERROR_MESSAGE, i); //Display end game stats
@@ -85,7 +85,6 @@ public class Game implements MouseListener {
                     }
                 }
                 // Reset the labels after a guess
-                // TODO: Consider option pane to reset values or not
                 guessTextField.setText("");
                 srcLabel.setText("");
                 destLabel.setText("");
