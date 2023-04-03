@@ -54,7 +54,8 @@ public class Game implements MouseListener {
             i = new ImageIcon(imageScaled);
 
 //          get the positions which are selected and in the labels on the GUI
-            if(srcLabel.getText() == "" || destLabel.getText() == ""){
+            if(srcLabel.getText() == "" || destLabel.getText() == ""
+                    || guessTextField.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null, "Please select BOTH a destination and a source node","Enter both nodes",JOptionPane.ERROR_MESSAGE, i);
             }
             else {

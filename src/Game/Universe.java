@@ -20,7 +20,6 @@ public class Universe {
         int source;
         int destination;
         int weight;
-        //        TODO: Tidy up the data reader
         while ((st = br.readLine()) != null){
             source = Integer.parseInt(st.substring(0,st.indexOf(' ')));
             destination = Integer.parseInt(st.substring(st.indexOf(' ')+1,st.indexOf(' ', st.indexOf(" ")+1)));

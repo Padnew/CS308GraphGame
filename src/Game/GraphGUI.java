@@ -84,7 +84,6 @@ public class GraphGUI extends JFrame {
         graphPanel.setBackground(Color.BLACK);
         clearLabelsButton = new JButton("Clear selections");
 //        Adding components to the bottom panel
-//        TODO: Split bottom panel into left and right panel for controls
         mainPanel.add(graphPanel);
         bottomPanel.add(guessLabel);
         bottomPanel.add(guessTextField);
