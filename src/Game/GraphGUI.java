@@ -137,8 +137,12 @@ public class GraphGUI extends JFrame {
     public JButton getClearLabelsButton() {
         return clearLabelsButton;
     }
-    public JLabel getScoreLabel(){return scoreLabel;}
-    public JLabel getFuelLabel(){return fuelLabel;}
+    public JLabel getScoreLabel(){
+        return scoreLabel;
+    }
+    public JLabel getFuelLabel(){
+        return fuelLabel;
+    }
 
     public JPanel getGraphPanel() {
         return graphPanel;

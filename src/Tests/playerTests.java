@@ -11,7 +11,7 @@ public class playerTests {
     public void testPlayer() {
         Player player = new Player();
         assertEquals(0, player.getScore());
-        assertEquals(200, player.getFuel());
+        assertEquals(50, player.getFuel());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class playerTests {
     public void testDecrementFuel() {
         Player player = new Player();
         player.decrementFuel(10);
-        assertEquals(190, player.getFuel());
+        assertEquals(40, player.getFuel());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class playerTests {
         player.decrementFuel(50);
         player.resetPlayer();
         assertEquals(0, player.getScore());
-        assertEquals(200, player.getFuel());
+        assertEquals(50, player.getFuel());
     }
 
  

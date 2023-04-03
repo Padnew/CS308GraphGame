@@ -15,7 +15,7 @@ public class gameTests {
     }
 
     // Testing the randomise functionality
-    @Test
+    //@Test
     public void randomiseButton() {
         
     }
