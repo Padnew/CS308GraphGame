@@ -46,7 +46,7 @@ public class graphTest {
 
     
 
-    @Test
+    //@Test
     public void testDijkstras() {
         // testing universe and planet instead
     }
