@@ -30,8 +30,9 @@ public class Graph implements GraphADT {
         return adjacencyList.size();
     }
 
-    //    TODO: Run tests on algo
     //Dijkstra's Algorithm for finding the shortest path between two nodes
+    // Returns the shortest path between the start and end node as an ArrayList
+    //With the total path weight at index 0
     @Override
     public ArrayList<Integer> dijkstraAlgo(int startNode, int endNode) {
         Map<Integer, Integer> distance = new HashMap<>(); //Map where key is a node and value is distance from source
