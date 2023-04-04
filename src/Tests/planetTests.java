@@ -19,20 +19,21 @@ public class planetTests {
     Universe universe = new Universe();
 
 
-    // testing getNode
+    // testing getNode -> we initialised a planet with a value of 5 above , and test its getter
     @Test
     public void testNode() {
         assertEquals(5, planet.getNode());
     }
 
-    // testing addNeighbour 
+    // testing addNeighbour -> we add a neighbour to our initial planet (5) , and then test the hashmap from getNeighbours contains the key value added (7)
     @Test
     public void testAddNeighbour() {
         planet.addNeighbour(7, 4);
         assertTrue(planet.getNeighbours().containsKey(7));
     }
 
-    // testing getNeighbours function
+    // testing getNeighbours function -> we add neighbours to a completelty new node (planetTest(4)), create a new hashmap of the same type
+    // and then compare if the neighbours hashmap is indentical to a tester map created
     @Test 
     public void testGetNeighbours() {
         planetTest.addNeighbour(3,5);
